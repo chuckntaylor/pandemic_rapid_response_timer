@@ -1,16 +1,9 @@
-# pandemictimer
+# Pandemic Rapid Response Timer
 
-Assistant timer app for Pandemic Rapid Response
+Assistant timer app for the [Pandemic Rapid Response](https://www.zmangames.com/en/products/pandemic-rapid-response/) boardgame by Z-man Games. This project is a Flutter application built for my own learning purposes.
 
-## Getting Started
+## App Details
 
-This project is a starting point for a Flutter application.
+I am a nerd and I love many of the modern board games available these days. -- especially cooperative ones. While I enjoy many of the games in the Pandemic universe, Rapid Response is quite different in that it is a **real-time** game where you need to make quick decisions. Throughout the game your team has to race against the clock to deliver supplies to cities in need. The remaining time is measured through the use of a sand timer and time tokens. Whenever the sand timer runs out, a time token is discarded from a pool and the timer is flipped again. If the timer runs out and there are no time tokens remaining while there are unresolved cities in play, the game is lost.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Now, as the sand timer is completely silent, it is **very** easy to either not notice that time has run out, or to forget to discard a token. Additionally, when a city is resolved, a token is added to the pool. Because there is a lot to manage to keep track of time, and everyone is focused on making the most of their precious seconds, instead of staring at the sand timer, I have developed this app to keep track of the time and tokens, alert the players with audio, and provide reminders for drawing new cards from the city deck.
