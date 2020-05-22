@@ -1,0 +1,51 @@
+{
+  "@@last_modified": "2020-05-14T23:26:48.126688", 
+  "title": "Pandemic Rapid Response Timer", 
+  "@title": {
+    "description": "The title of the application", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "easy": "Easy", 
+  "@easy": {
+    "description": "The label for the easy difficulty option", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "normal": "Normal", 
+  "@normal": {
+    "description": "The label for the normal difficulty option", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "veteran": "Veteran", 
+  "@veteran": {
+    "description": "The label for the veteran difficulty option", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "heroic": "Heroic", 
+  "@heroic": {
+    "description": "The label for the heroic difficulty option", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "numCityPlaced": "City cards placed", 
+  "@numCityPlaced": {
+    "description": "Label for how many city cards are placed at the start of the game", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "numCityInDeck": "City cards in deck", 
+  "@numCityInDeck": {
+    "description": "Label for how many city cards are in the city deck at the start of the game", 
+    "type": "text", 
+    "placeholders": {}
+  }, 
+  "semanticMissionIcon": "mission icon", 
+  "@semanticMissionIcon": {
+    "description": "Used in the semantic label for the difficulty icons", 
+    "type": "text", 
+    "placeholders": {}
+  }
+}
