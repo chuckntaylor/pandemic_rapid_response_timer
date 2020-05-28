@@ -16,7 +16,14 @@ class TimerAnimationController extends FlareController {
 
   ActorAnimation _flip;
   ActorAnimation _run;
+  FlutterActorArtboard _artboard;
   double time = 0.0;
+
+  void reset() {
+    time = 0;
+    play = false;
+    _flip.apply(time, _artboard, 1.0);
+  }
 
 
   @override
@@ -40,6 +47,7 @@ class TimerAnimationController extends FlareController {
     // provide reference to the animation components the will be affected by this controller
     _flip = artboard.getAnimation(_getTimerAnimation(TimerAnimation.FLIP));
     _run = artboard.getAnimation(_getTimerAnimation(TimerAnimation.RUN));
+    _artboard = artboard;
     _flip.apply(0, artboard, 1.0);
   }
 
