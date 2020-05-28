@@ -21,7 +21,7 @@ class GameState extends ChangeNotifier {
 
   final int _maxTimeTokens = 9;
 
-  int _timeTokensRemaining = 3;
+  int _timeTokensRemaining = 1;
 
   int get timeTokensRemaining => _timeTokensRemaining;
 

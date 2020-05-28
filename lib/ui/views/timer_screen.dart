@@ -80,9 +80,8 @@ class _TimerScreenState extends State<TimerScreen> {
             // countdown complete
             _timer.cancel();
             _timerController.reset();
-            // check if there are still city cards in deck
-            // if so show alert to reset time and draw new card
-            if (gameStateModel.cardsInDeck > 0) {
+            // check if there is still any time tokens remaining
+            if (gameStateModel.timeTokensRemaining > 0) {
               // play alarm sound
               assetsAudioPlayer.play();
               // show timerReset Dialog
@@ -91,6 +90,13 @@ class _TimerScreenState extends State<TimerScreen> {
                   callBack: () {
                     _removeToken();
                   });
+            } else {
+              // play a game end sound
+              assetsAudioPlayer.open(Audio('assets/audio/drama.mp3'));
+              // show gameOver Dialog
+              DialogHelper.gameOver(context: context, callBack: () {
+                print('Run some gameOver logic');
+              });
             }
           }
         });
@@ -176,8 +182,9 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
-                                      assetsAudioPlayer.play();
-                                      print('Pause');
+                                      DialogHelper.gameOver(context: context, callBack: () {
+                                        print('Click');
+                                      });
                                     },
                                   ),
                                 ),
