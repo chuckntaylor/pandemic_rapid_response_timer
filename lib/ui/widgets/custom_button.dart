@@ -10,13 +10,38 @@ import 'package:pandemic_timer/ui/widgets/button_painter.dart';
 class CustomButton extends StatelessWidget {
 
   final Color color;
-  CustomButton({@required this.color});
+  final Widget child;
+  final Function onPress;
+  static const Color _defaultGrey = Color.fromRGBO(89, 89, 89, 1.0);
+
+  CustomButton({
+    this.color = _defaultGrey,
+    @required this.child,
+    @required this.onPress
+  });
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: CustomButtonPainter(color: color),
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: CustomPaint(
+            size: Size.infinite,
+            painter: CustomButtonPainter(color: color),
+          ),
+        ),
+        Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(10),
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: () {
+            onPress();
+          },
+          child: child,
+        )
+        )
+      ],
     );
   }
 }

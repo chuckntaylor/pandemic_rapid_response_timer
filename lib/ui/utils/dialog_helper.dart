@@ -8,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:pandemic_timer/ui/widgets/timer_reset_dialog.dart';
 
 class DialogHelper {
-  static timerReset({BuildContext context, Function callBack}) {
-    return showDialog(
+  static timerReset({BuildContext context, Function callBack}) async {
+    return await showDialog(
         context: context,
         builder: (context) {
           return TimerResetDialog(callBack: callBack,);
         }
-    );
+    ).then((_) {
+      callBack();
+    });
   }
 }
