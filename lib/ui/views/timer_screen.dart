@@ -4,11 +4,14 @@
  * Last modified 19/05/20 10:13 AM
  */
 
+import 'dart:ui';
+
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:pandemic_timer/ui/utils/color_shades.dart';
 import 'package:pandemic_timer/business_logic/view_models/timer_screen_viewmodel.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
 import 'package:pandemic_timer/ui/utils/dialog_helper.dart';
@@ -32,10 +35,14 @@ class _TimerScreenState extends State<TimerScreen> {
   final GameState gameStateModel = serviceLocator<GameState>();
 
   TokenAnimationController _tokenController;
-
-  int _counter = 120;
+  final assetsAudioPlayer = AssetsAudioPlayer();
+  
+  
+  int _counter = 10;
   String _timeDisplay = '2:00';
   Timer _timer;
+
+  String _startBtnText = 'START';
 
   /// Colors and Styles
   final Color _startBtnColor = Color.fromRGBO(105, 194, 76, 1.0);
@@ -45,6 +52,8 @@ class _TimerScreenState extends State<TimerScreen> {
   void initState() {
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
+    // load alarm sound into player
+    assetsAudioPlayer.open(Audio('assets/audio/error.mp3'), autoStart: false);
     super.initState();
   }
 
@@ -52,8 +61,14 @@ class _TimerScreenState extends State<TimerScreen> {
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
       _timerController.play = false;
+      setState(() {
+        _startBtnText = 'START';
+      });
     } else {
       _timerController.play = true;
+      setState(() {
+        _startBtnText = 'PAUSE';
+      });
       _timer = Timer.periodic(Duration(seconds: 1), (timer) {
         setState(() {
           if (_counter > 0) {
@@ -68,6 +83,9 @@ class _TimerScreenState extends State<TimerScreen> {
             // check if there are still city cards in deck
             // if so show alert to reset time and draw new card
             if (gameStateModel.cardsInDeck > 0) {
+              // play alarm sound
+              assetsAudioPlayer.play();
+              // show timerReset Dialog
               DialogHelper.timerReset(
                   context: context,
                   callBack: () {
@@ -91,7 +109,7 @@ class _TimerScreenState extends State<TimerScreen> {
       _timerController.reset();
       _timerController.play = true;
       setState(() {
-        _counter = 120;
+        _counter = 10;
         _timeDisplay = '2:00';
       });
       // it takes the sand timer one second to turn over before the sand starts to fall.
@@ -131,6 +149,7 @@ class _TimerScreenState extends State<TimerScreen> {
                     return Container(
                       child: Column(
                         children: [
+                          /** Top Spacer */
                           SizedBox(
                             height: 10,
                           ),
@@ -138,21 +157,9 @@ class _TimerScreenState extends State<TimerScreen> {
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.pause_circle_outline),
-                                    iconSize: 32,
-                                    color: Colors.white,
-                                    highlightColor: Color.fromARGB(0, 0, 0, 0),
-                                    onPressed: () {
-                                      DialogHelper.timerReset(
-                                          context: context,
-                                          callBack: () {
-                                            print('clicked to resume');
-                                          });
-                                    },
-                                  ),
-                                ),
+                                /** Spacer */
+                                SizedBox(width: 48,),
+                                /** Sand Timer */
                                 Expanded(
                                   child: Container(
                                     child: FlareActor(
@@ -161,6 +168,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     ),
                                   ),
                                 ),
+                                /** Exit Button */
                                 Container(
                                   child: IconButton(
                                     icon: Icon(Icons.close),
@@ -168,6 +176,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
+                                      assetsAudioPlayer.play();
                                       print('Pause');
                                     },
                                   ),
@@ -175,6 +184,7 @@ class _TimerScreenState extends State<TimerScreen> {
                               ],
                             ),
                           ),
+                          /** Time Tokens */
                           Container(
                             height: 60,
                             child: FlareActor(
@@ -182,13 +192,18 @@ class _TimerScreenState extends State<TimerScreen> {
                               controller: _tokenController,
                             ),
                           ),
+                          /** Time Display */
                           Text(
                             _timeDisplay,
-                            style: GoogleFonts.cutiveMono(
+                            style: TextStyle(
                                 fontSize: 64,
                                 color: Colors.yellow,
-                                fontWeight: FontWeight.bold),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Operator Mono',
+                            ),
                           ),
+
+                          /** Start/Pause Button */
                           Container(
                             margin: EdgeInsets.all(_getMargin(context)),
                             child: SizedBox(
@@ -203,7 +218,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                       margin: EdgeInsets.only(bottom: 5),
                                       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
                                       child: Text(
-                                        'START',
+                                        _startBtnText,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             color: Color.fromRGBO(
@@ -290,6 +305,13 @@ class _TimerScreenState extends State<TimerScreen> {
                                                       color: Colors.white,
                                                       fontSize: 18,
                                                       fontWeight: FontWeight.bold,
+                                                        shadows: [
+                                                          Shadow(
+                                                              offset: Offset(2, 3),
+                                                              blurRadius: 3.0,
+                                                              color: Color.fromRGBO(
+                                                                  50, 50, 50, 1))
+                                                        ]
                                                     ),
                                                   ),
                                                 ),
@@ -302,7 +324,14 @@ class _TimerScreenState extends State<TimerScreen> {
                                                   style: TextStyle(
                                                       color: Colors.white,
                                                       fontWeight: FontWeight.bold,
-                                                      fontSize: 32
+                                                      fontSize: 32,
+                                                      shadows: [
+                                                        Shadow(
+                                                            offset: Offset(2, 3),
+                                                            blurRadius: 3.0,
+                                                            color: Color.fromRGBO(
+                                                                50, 50, 50, 1))
+                                                      ]
                                                   ),
                                                 )
                                               ],
@@ -334,6 +363,13 @@ class _TimerScreenState extends State<TimerScreen> {
                                                       color: Colors.white,
                                                       fontSize: 18,
                                                       fontWeight: FontWeight.bold,
+                                                        shadows: [
+                                                          Shadow(
+                                                              offset: Offset(2, 3),
+                                                              blurRadius: 3.0,
+                                                              color: Color.fromRGBO(
+                                                                  50, 50, 50, 1))
+                                                        ]
                                                     ),
                                                   ),
                                                 ),
@@ -346,7 +382,14 @@ class _TimerScreenState extends State<TimerScreen> {
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                         fontWeight: FontWeight.bold,
-                                                      fontSize: 32
+                                                      fontSize: 32,
+                                                      shadows: [
+                                                        Shadow(
+                                                            offset: Offset(2, 3),
+                                                            blurRadius: 3.0,
+                                                            color: Color.fromRGBO(
+                                                                50, 50, 50, 1))
+                                                      ]
                                                   ),
                                                 )
                                               ],

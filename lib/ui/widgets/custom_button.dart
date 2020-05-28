@@ -5,6 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pandemic_timer/ui/widgets/button_painter.dart';
 
 class CustomButton extends StatelessWidget {
@@ -36,6 +37,7 @@ class CustomButton extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
+            SystemSound.play(SystemSoundType.click);
             onPress();
           },
           child: child,

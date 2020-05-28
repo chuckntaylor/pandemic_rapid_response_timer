@@ -11,11 +11,10 @@ class DialogHelper {
   static timerReset({BuildContext context, Function callBack}) async {
     return await showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return TimerResetDialog(callBack: callBack,);
         }
-    ).then((_) {
-      callBack();
-    });
+    );
   }
 }
