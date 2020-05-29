@@ -5,7 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:pandemic_timer/ui/widgets/cities_in_play_dialog.dart';
+import 'package:pandemic_timer/ui/widgets/city_card_count_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/game_over_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/timer_reset_dialog.dart';
 
@@ -33,12 +33,16 @@ class DialogHelper {
     );
   }
 
-  static citiesInPlay(BuildContext context, {Function callBack}) {
+  static cityCardCount(BuildContext context, {
+    @required Function onComplete,
+    @required int cardCount,
+    @required String title
+  }) {
     return showDialog(
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return CitiesInPlayDialog(callback: callBack);
+          return CityCardCountDialog(onComplete: onComplete, cardCount: cardCount, title: title,);
         });
   }
 }

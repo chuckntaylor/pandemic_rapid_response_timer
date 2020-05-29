@@ -84,4 +84,18 @@ class GameState extends ChangeNotifier {
     }
   }
 
+  void setCardsInPlay(int newCardCount) {
+    if (newCardCount >= 0 && newCardCount <= 9) {
+      _cardsInPlay = newCardCount;
+      notifyListeners();
+    }
+  }
+
+  void setCardsInDeck(int newCardCount) {
+    if (newCardCount >= 0 && newCardCount <= 9) {
+      _cardsInDeck = newCardCount;
+      notifyListeners();
+    }
+  }
+
 }

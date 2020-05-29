@@ -6,27 +6,56 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pandemic_timer/ui/widgets/button_painter.dart';
-import 'package:pandemic_timer/ui/widgets/city_count_dialog_painter.dart';
 import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
-class CitiesInPlayDialog extends StatefulWidget {
-  final Function callback;
-  CitiesInPlayDialog({@required this.callback});
+// ignore: must_be_immutable
+class CityCardCountDialog extends StatefulWidget {
+  final Function onComplete;
+  final int cardCount;
+  final String title;
+  
+  CityCardCountDialog({
+    @required this.onComplete,
+    @required this.cardCount,
+    @required this.title
+  });
 
   @override
-  _CitiesInPlayDialogState createState() => _CitiesInPlayDialogState(callback);
+  _CityCardCountDialogState createState() => _CityCardCountDialogState();
 }
 
-class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
-
-  final Function callBack;
-  _CitiesInPlayDialogState(this.callBack);
+class _CityCardCountDialogState extends State<CityCardCountDialog> {
 
   final Color _fillColor = Color.fromRGBO(53, 162, 189, 1.0);
   final Color _outlineColor = Color.fromRGBO(53, 162, 189, 1.0).darker(50);
   final Color _iconColor = Color.fromRGBO(53, 162, 189, 1.0).darker(100);
+
+  int _cardCount;
+
+  void _incrementCardCount() {
+    if (_cardCount < 9) {
+      print(_cardCount);
+      setState(() {
+        _cardCount++;
+      });
+    }
+  }
+
+  void _decrementCardCount() {
+    if (_cardCount > 0) {
+      setState(() {
+        _cardCount--;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    _cardCount = widget.cardCount;
+    print(_cardCount);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +63,11 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 3,
       clipBehavior: Clip.antiAlias,
-      child: _buildChild(context, callBack),
+      child: _buildChild(context),
     );
   }
 
-  Widget _buildChild(BuildContext context, Function callBack) {
+  Widget _buildChild(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -61,7 +90,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                     child: InkWell(
                       onTap: () {
                         SystemSound.play(SystemSoundType.click);
-                        callBack();
+                        Navigator.of(context).pop();
                         },
                       child: Container(
                         padding: EdgeInsets.all(4),
@@ -79,7 +108,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                   children: [
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 46),
-                      child: Text('City cards\nin play'.toUpperCase(),
+                      child: Text('${widget.title}'.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,
@@ -129,7 +158,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                                           padding: EdgeInsets.all(0),
                                           onPressed: () {
                                             SystemSound.play(SystemSoundType.click);
-                                            print("Up");
+                                            _incrementCardCount();
                                           },
                                         ),
                                       ),
@@ -161,7 +190,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                                           padding: EdgeInsets.all(0),
                                           onPressed: () {
                                             SystemSound.play(SystemSoundType.click);
-                                            print("Down");
+                                            _decrementCardCount();
                                           },
                                         ),
                                       ),
@@ -186,6 +215,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                               child: Container(
                                 margin: EdgeInsets.only(top: 2, right: 2, bottom: 2),
                                 padding: EdgeInsets.symmetric(horizontal: 20),
+                                width: 120,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(8),
@@ -195,7 +225,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                                 ),
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
-                                  child: Text('9',
+                                  child: Text('$_cardCount',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -232,8 +262,7 @@ class _CitiesInPlayDialogState extends State<CitiesInPlayDialog> {
                         ),
                         onPressed: () {
                           SystemSound.play(SystemSoundType.click);
-                          callBack();
-                          Navigator.of(context).pop();
+                          widget.onComplete(_cardCount);
                         },
                       ),
                     ),

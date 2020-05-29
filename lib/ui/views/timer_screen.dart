@@ -39,7 +39,7 @@ class _TimerScreenState extends State<TimerScreen> {
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   
-  int _counter = 10;
+  int _counter = 120;
   String _timeDisplay = '2:00';
   Timer _timer;
 
@@ -116,7 +116,7 @@ class _TimerScreenState extends State<TimerScreen> {
       _timerController.reset();
       _timerController.play = true;
       setState(() {
-        _counter = 10;
+        _counter = 120;
         _timeDisplay = '2:00';
       });
       // it takes the sand timer one second to turn over before the sand starts to fall.
@@ -183,9 +183,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
-                                      DialogHelper.citiesInPlay(context, callBack: () {
-                                        print('Click');
-                                      });
+                                      print('Clicked');
                                     },
                                   ),
                                 ),
@@ -296,7 +294,14 @@ class _TimerScreenState extends State<TimerScreen> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: CustomButton(
                                       onPress: () {
-                                        print("Clicked");
+                                        DialogHelper.cityCardCount(context,
+                                            onComplete: (int newCardCount) {
+                                              Navigator.of(context).pop();
+                                              gameStateModel.setCardsInPlay(newCardCount);
+                                            },
+                                            cardCount: gameState.cardsInPlay,
+                                            title: 'City cards\nin play'
+                                        );
                                       },
                                       child: Center(
                                         child: Container(
@@ -354,7 +359,14 @@ class _TimerScreenState extends State<TimerScreen> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: CustomButton(
                                       onPress: () {
-                                        print("Clicked 2");
+                                        DialogHelper.cityCardCount(context,
+                                            onComplete: (int newCardCount) {
+                                              Navigator.of(context).pop();
+                                              gameStateModel.setCardsInDeck(newCardCount);
+                                            },
+                                            cardCount: gameState.cardsInDeck,
+                                            title: 'City cards\nin deck'
+                                        );
                                       },
                                       child: Center(
                                         child: Container(
