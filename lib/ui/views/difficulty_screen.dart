@@ -10,7 +10,7 @@ import 'package:pandemic_timer/ui/views/timer_screen.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
 import 'package:pandemic_timer/ui/widgets/difficulty_option_button.dart';
 import 'package:pandemic_timer/business_logic/models/difficulty.dart';
-import 'package:pandemic_timer/services/game_state/game_state.dart';
+import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
 
 class DifficultySelectionScreen extends StatelessWidget {
 

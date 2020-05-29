@@ -76,6 +76,8 @@ flutter:
     - family: Operator Mono
       fonts:
         - asset: fonts/OperatorMono-Medium.otf
+        - asset: fonts/OperatorMono-Light.otf
+          weight: 300
         - asset: fonts/OperatorMono-Bold.otf
           weight: 700
   # fonts:

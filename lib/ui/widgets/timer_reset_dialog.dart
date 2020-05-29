@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class TimerResetDialog extends StatelessWidget {
 
-  Function callBack;
+  final Function callBack;
 
   TimerResetDialog({@required this.callBack});
 

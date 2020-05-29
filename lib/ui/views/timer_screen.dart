@@ -11,15 +11,13 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pandemic_timer/ui/utils/color_shades.dart';
-import 'package:pandemic_timer/business_logic/view_models/timer_screen_viewmodel.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
 import 'package:pandemic_timer/ui/utils/dialog_helper.dart';
 import 'package:pandemic_timer/ui/utils/timer_animation_controller.dart';
 import 'package:pandemic_timer/ui/utils/token_animation_controller.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
-import 'package:pandemic_timer/services/game_state/game_state.dart';
+import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -27,16 +25,19 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen> {
-  TimerScreenViewModel viewModel = serviceLocator<TimerScreenViewModel>();
 
+  /// Proporties
+  ///
+  // Model
+  final GameState gameStateModel = serviceLocator<GameState>();
+
+  // Flare (Rive) Animaton Controllers
   final TimerAnimationController _timerController =
       TimerAnimationController(play: false);
 
-  final GameState gameStateModel = serviceLocator<GameState>();
-
   TokenAnimationController _tokenController;
   final assetsAudioPlayer = AssetsAudioPlayer();
-  
+
   
   int _counter = 10;
   String _timeDisplay = '2:00';
@@ -53,7 +54,7 @@ class _TimerScreenState extends State<TimerScreen> {
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
     // load alarm sound into player
-    assetsAudioPlayer.open(Audio('assets/audio/error.mp3'), autoStart: false);
+    assetsAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
     super.initState();
   }
 
@@ -86,7 +87,7 @@ class _TimerScreenState extends State<TimerScreen> {
               assetsAudioPlayer.play();
               // show timerReset Dialog
               DialogHelper.timerReset(
-                  context: context,
+                  context,
                   callBack: () {
                     _removeToken();
                   });
@@ -94,7 +95,7 @@ class _TimerScreenState extends State<TimerScreen> {
               // play a game end sound
               assetsAudioPlayer.open(Audio('assets/audio/drama.mp3'));
               // show gameOver Dialog
-              DialogHelper.gameOver(context: context, callBack: () {
+              DialogHelper.gameOver(context, callBack: () {
                 print('Run some gameOver logic');
               });
             }
@@ -182,7 +183,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
-                                      DialogHelper.gameOver(context: context, callBack: () {
+                                      DialogHelper.citiesInPlay(context, callBack: () {
                                         print('Click');
                                       });
                                     },
@@ -205,7 +206,7 @@ class _TimerScreenState extends State<TimerScreen> {
                             style: TextStyle(
                                 fontSize: 64,
                                 color: Colors.yellow,
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w300,
                                 fontFamily: 'Operator Mono',
                             ),
                           ),

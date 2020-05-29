@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class GameOverDialog extends StatelessWidget {
 
-  Function callBack;
+  final Function callBack;
 
   GameOverDialog({@required this.callBack});
 
