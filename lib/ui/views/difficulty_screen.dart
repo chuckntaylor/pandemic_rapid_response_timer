@@ -5,74 +5,136 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
+import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 import 'package:pandemic_timer/ui/views/timer_screen.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
+import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:pandemic_timer/ui/widgets/difficulty_option_button.dart';
 import 'package:pandemic_timer/business_logic/models/difficulty.dart';
 import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
+import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
-class DifficultySelectionScreen extends StatelessWidget {
+class DifficultySelectionScreen extends StatefulWidget {
+  @override
+  _DifficultySelectionScreenState createState() => _DifficultySelectionScreenState();
+}
+
+class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
 
   final GameState gameState = serviceLocator<GameState>();
+
+  bool _savedGameExists = false;
+
+  final Color _easyColor = Color.fromRGBO(105, 194, 76, 1.0).darker(40);
+  final Color _normalColor = Color.fromRGBO(53, 162, 189, 1.0).darker(20);
+  final Color _veteranColor = Colors.amber.darker(40);
+  final Color _heroicColor = Colors.red.darker(20);
+
+  static const double _buttonSpacing = 10.0;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    DifficultyOptionButton(
-                      title: Strings.of(context).easy,
-                      iconName: 'easyPlane',
-                      numCitiesPlaced: 2,
-                      numCitiesInDeck: 3,
-                      onPressed: () {
-                        _navigateToTimer(context, difficulty: Difficulty.EASY);
-                      },
-                    ),
-                    DifficultyOptionButton(
-                      title: Strings.of(context).normal,
-                      iconName: 'normalPlane',
-                      numCitiesPlaced: 2,
-                      numCitiesInDeck: 5,
-                      onPressed: () {
-                        _navigateToTimer(context, difficulty: Difficulty.NORMAL);
-                      },
-                    ),
-                    DifficultyOptionButton(
-                      title: Strings.of(context).veteran,
-                      iconName: 'veteranPlane',
-                      numCitiesPlaced: 3,
-                      numCitiesInDeck: 7,
-                      onPressed: () {
-                        _navigateToTimer(context, difficulty: Difficulty.VETERAN);
-                      },
-                    ),
-                    DifficultyOptionButton(
-                      title: Strings.of(context).heroic,
-                      iconName: 'heroicPlane',
-                      numCitiesPlaced: 4,
-                      numCitiesInDeck: 9,
-                      onPressed: () {
-                        _navigateToTimer(context, difficulty: Difficulty.HEROIC);
-                      },
-                    )
-                  ],
+        body: AnnotatedRegion<SystemUiOverlayStyle>(value: SystemUiOverlayStyle.light,
+          child: Container(
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('assets/images/speakerGrill.png'),
+                    fit: BoxFit.cover)),
+            child: SafeArea(
+              child: Center(
+                child: IntrinsicWidth(
+                  child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          if (gameState.savedGame)
+                            CustomButton(
+                                onPress: () {
+                                  _navigateToTimer(context, difficulty: Difficulty.RESUME);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Center(
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(Icons.refresh, color: Colors.white, size: 30,),
+                                          SizedBox(width: 8,),
+                                          Text('Resume Game'.toUpperCase(), style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),),
+                                        ],
+                                      )
+                                  ),
+                                ),
+                              ),
+                          if (gameState.savedGame)
+                                SizedBox(height: _buttonSpacing,),
+                          DifficultyOptionButton(
+                            title: Strings.of(context).easy,
+                            iconName: 'easyPlane',
+                            numCitiesPlaced: 2,
+                            numCitiesInDeck: 3,
+                            onPressed: () {
+                              _navigateToTimer(context, difficulty: Difficulty.EASY);
+                            },
+                            color: _easyColor,
+                          ),
+                          SizedBox(height: _buttonSpacing,),
+                          DifficultyOptionButton(
+                            title: Strings.of(context).normal,
+                            iconName: 'normalPlane',
+                            numCitiesPlaced: 2,
+                            numCitiesInDeck: 5,
+                            onPressed: () {
+                              _navigateToTimer(context, difficulty: Difficulty.NORMAL);
+                            },
+                            color: _normalColor,
+                          ),
+                          SizedBox(height: _buttonSpacing,),
+                          DifficultyOptionButton(
+                            title: Strings.of(context).veteran,
+                            iconName: 'veteranPlane',
+                            numCitiesPlaced: 3,
+                            numCitiesInDeck: 7,
+                            onPressed: () {
+                              _navigateToTimer(context, difficulty: Difficulty.VETERAN);
+                            },
+                            color: _veteranColor,
+                          ),
+                          SizedBox(height: _buttonSpacing,),
+                          DifficultyOptionButton(
+                            title: Strings.of(context).heroic,
+                            iconName: 'heroicPlane',
+                            numCitiesPlaced: 4,
+                            numCitiesInDeck: 9,
+                            onPressed: () {
+                              _navigateToTimer(context, difficulty: Difficulty.HEROIC);
+                            },
+                            color: _heroicColor,
+                          )
+                        ],
+                      ),
                 )
-            ),
+                ),
+              ),
           ),
+        ),
     );
   }
 
-  void _navigateToTimer(BuildContext context, {Difficulty difficulty}) {
+  void _navigateToTimer(BuildContext context, {Difficulty difficulty}) async {
     gameState.initNewGame(difficulty: difficulty);
-    Navigator.push(context, MaterialPageRoute(
+    await Navigator.push(context, MaterialPageRoute(
         builder: (context) => TimerScreen()
-    ));
+    )).then((_) {
+      setState(() {
+        _savedGameExists = gameState.savedGame;
+      });
+    }
+    );
   }
 }

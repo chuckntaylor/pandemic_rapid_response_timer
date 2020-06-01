@@ -8,5 +8,6 @@ enum Difficulty {
   EASY,
   NORMAL,
   VETERAN,
-  HEROIC
+  HEROIC,
+  RESUME
 }

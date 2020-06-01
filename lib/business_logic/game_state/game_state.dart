@@ -27,6 +27,11 @@ class GameState extends ChangeNotifier {
 
   int secondsRemaining = 120;
 
+  // game saving properties
+  bool savedGame = false;
+  int currentTime = 0;
+  // TODO: current playtime of background music
+
   void initNewGame({Difficulty difficulty}) {
     switch (difficulty) {
       case Difficulty.EASY:
@@ -98,4 +103,8 @@ class GameState extends ChangeNotifier {
     }
   }
 
+  @override
+  // ignore: must_call_super
+  // need to keep singleton alive. cannot make a new one.
+  void dispose() {}
 }

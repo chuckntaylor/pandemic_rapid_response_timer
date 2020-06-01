@@ -26,8 +26,7 @@ class TimerScreen extends StatefulWidget {
 
 class _TimerScreenState extends State<TimerScreen> {
 
-  /// Proporties
-  ///
+  /// Properties
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
 
@@ -36,11 +35,13 @@ class _TimerScreenState extends State<TimerScreen> {
       TimerAnimationController(play: false);
 
   TokenAnimationController _tokenController;
+
+  // audio players
   final assetsAudioPlayer = AssetsAudioPlayer();
 
-  
+  // Timer props
   int _counter = 120;
-  String _timeDisplay = '2:00';
+  String _timeDisplay;
   Timer _timer;
 
   String _startBtnText = 'START';
@@ -53,9 +54,16 @@ class _TimerScreenState extends State<TimerScreen> {
   void initState() {
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
+    _timeDisplay = '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
     // load alarm sound into player
     assetsAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    assetsAudioPlayer.dispose();
+    super.dispose();
   }
 
   void _startTimer() {
@@ -134,6 +142,13 @@ class _TimerScreenState extends State<TimerScreen> {
     }
   }
 
+  void _saveAndExit() {
+    gameStateModel.savedGame = true;
+    gameStateModel.currentTime = _counter;
+    // TODO: current playtime of background music
+    Navigator.of(context).pop();
+  }
+
   double _getMargin(BuildContext context) {
     return MediaQuery.of(context).size.width * 0.025;
   }
@@ -183,7 +198,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
-                                      print('Clicked');
+                                      _saveAndExit();
                                     },
                                   ),
                                 ),
@@ -294,13 +309,28 @@ class _TimerScreenState extends State<TimerScreen> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: CustomButton(
                                       onPress: () {
+                                        // pause timer if running and flag if resume is needed.
+                                        bool _shouldResume = false;
+                                        if (_timer != null && _timer.isActive) {
+                                          _startTimer();
+                                          _shouldResume = true;
+                                        }
                                         DialogHelper.cityCardCount(context,
+                                            cardCount: gameState.cardsInPlay,
+                                            title: 'City cards\nin play',
                                             onComplete: (int newCardCount) {
                                               Navigator.of(context).pop();
                                               gameStateModel.setCardsInPlay(newCardCount);
+                                              if (_shouldResume) {
+                                                _startTimer();
+                                              }
                                             },
-                                            cardCount: gameState.cardsInPlay,
-                                            title: 'City cards\nin play'
+                                          onCancel: () {
+                                            Navigator.of(context).pop();
+                                            if (_shouldResume) {
+                                              _startTimer();
+                                            }
+                                          },
                                         );
                                       },
                                       child: Center(
@@ -359,13 +389,29 @@ class _TimerScreenState extends State<TimerScreen> {
                                       MediaQuery.of(context).size.width * 0.45,
                                   child: CustomButton(
                                       onPress: () {
+                                        // pause timer if running and flag if resume is needed.
+                                        bool _shouldResume = false;
+                                        if (_timer != null && _timer.isActive) {
+                                          _startTimer();
+                                          _shouldResume = true;
+                                        }
+                                        // open dialog
                                         DialogHelper.cityCardCount(context,
+                                            cardCount: gameState.cardsInDeck,
+                                            title: 'City cards\nin deck',
                                             onComplete: (int newCardCount) {
                                               Navigator.of(context).pop();
                                               gameStateModel.setCardsInDeck(newCardCount);
+                                              if (_shouldResume) {
+                                                _startTimer();
+                                              }
                                             },
-                                            cardCount: gameState.cardsInDeck,
-                                            title: 'City cards\nin deck'
+                                          onCancel: () {
+                                            Navigator.of(context).pop();
+                                            if (_shouldResume) {
+                                              _startTimer();
+                                            }
+                                          },
                                         );
                                       },
                                       child: Center(

@@ -11,12 +11,14 @@ import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
 // ignore: must_be_immutable
 class CityCardCountDialog extends StatefulWidget {
-  final Function onComplete;
+  final Function(int) onComplete;
+  final Function onCancel;
   final int cardCount;
   final String title;
   
   CityCardCountDialog({
     @required this.onComplete,
+    @required this.onCancel,
     @required this.cardCount,
     @required this.title
   });
@@ -35,7 +37,6 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
 
   void _incrementCardCount() {
     if (_cardCount < 9) {
-      print(_cardCount);
       setState(() {
         _cardCount++;
       });
@@ -53,7 +54,6 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
   @override
   void initState() {
     _cardCount = widget.cardCount;
-    print(_cardCount);
     super.initState();
   }
 
@@ -90,7 +90,7 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                     child: InkWell(
                       onTap: () {
                         SystemSound.play(SystemSoundType.click);
-                        Navigator.of(context).pop();
+                        widget.onCancel();
                         },
                       child: Container(
                         padding: EdgeInsets.all(4),

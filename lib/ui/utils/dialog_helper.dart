@@ -34,7 +34,8 @@ class DialogHelper {
   }
 
   static cityCardCount(BuildContext context, {
-    @required Function onComplete,
+    @required Function(int) onComplete,
+    @required Function onCancel,
     @required int cardCount,
     @required String title
   }) {
@@ -42,7 +43,7 @@ class DialogHelper {
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return CityCardCountDialog(onComplete: onComplete, cardCount: cardCount, title: title,);
+          return CityCardCountDialog(onComplete: onComplete, onCancel: onCancel, cardCount: cardCount, title: title,);
         });
   }
 }
