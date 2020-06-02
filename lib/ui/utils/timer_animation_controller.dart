@@ -44,6 +44,7 @@ class TimerAnimationController extends FlareController {
 
   @override
   void initialize(FlutterActorArtboard artboard) {
+    print('Initialized called');
     // provide reference to the animation components the will be affected by this controller
     _flip = artboard.getAnimation(_getTimerAnimation(TimerAnimation.FLIP));
     _run = artboard.getAnimation(_getTimerAnimation(TimerAnimation.RUN));
@@ -53,6 +54,14 @@ class TimerAnimationController extends FlareController {
 
   @override
   void setViewTransform(Mat2D viewTransform) {
+  }
+
+  void setTimerPlayhead() {
+    if (time > 0) {
+      print("Artboard = $_artboard");
+      _flip.apply(0, _artboard, 1.0);
+      _run.apply(time, _artboard, 1.0);
+    }
   }
 
 }

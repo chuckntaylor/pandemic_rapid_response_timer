@@ -12,27 +12,28 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
+import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 import 'package:pandemic_timer/ui/utils/dialog_helper.dart';
 import 'package:pandemic_timer/ui/utils/timer_animation_controller.dart';
 import 'package:pandemic_timer/ui/utils/token_animation_controller.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
+import 'package:after_layout/after_layout.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
   _TimerScreenState createState() => _TimerScreenState();
 }
 
-class _TimerScreenState extends State<TimerScreen> {
+class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerScreen> {
 
   /// Properties
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
 
   // Flare (Rive) Animaton Controllers
-  final TimerAnimationController _timerController =
-      TimerAnimationController(play: false);
+  TimerAnimationController _timerController;
 
   TokenAnimationController _tokenController;
 
@@ -40,7 +41,7 @@ class _TimerScreenState extends State<TimerScreen> {
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   // Timer props
-  int _counter = 120;
+  int _counter;
   String _timeDisplay;
   Timer _timer;
 
@@ -52,12 +53,20 @@ class _TimerScreenState extends State<TimerScreen> {
 
   @override
   void initState() {
+    super.initState();
+    _timerController = TimerAnimationController(play: false);
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
+    _counter = gameStateModel.currentTime;
     _timeDisplay = '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
     // load alarm sound into player
     assetsAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
-    super.initState();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    _timerController.time = gameStateModel.timerAnimationCurrentTime;
+    _timerController.setTimerPlayhead();
   }
 
   @override
@@ -104,7 +113,7 @@ class _TimerScreenState extends State<TimerScreen> {
               assetsAudioPlayer.open(Audio('assets/audio/drama.mp3'));
               // show gameOver Dialog
               DialogHelper.gameOver(context, callBack: () {
-                print('Run some gameOver logic');
+                _exit();
               });
             }
           }
@@ -144,8 +153,21 @@ class _TimerScreenState extends State<TimerScreen> {
 
   void _saveAndExit() {
     gameStateModel.savedGame = true;
+    if (_timer != null && _timer.isActive) {
+      _startTimer();
+    }
     gameStateModel.currentTime = _counter;
+    gameStateModel.timerAnimationCurrentTime = _timerController.time;
+    print('Timer animation time = ${gameStateModel.timerAnimationCurrentTime}');
     // TODO: current playtime of background music
+    Navigator.of(context).pop();
+  }
+
+  void _exit() {
+    gameStateModel.savedGame = false;
+    if (_timer != null) {
+      _timer.cancel();
+    }
     Navigator.of(context).pop();
   }
 
@@ -241,18 +263,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                       child: Text(
                                         _startBtnText,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.bold,
-                                            shadows: [
-                                              Shadow(
-                                                  offset: Offset(2, 3),
-                                                  blurRadius: 3.0,
-                                                  color: Color.fromRGBO(
-                                                      50, 50, 50, 0.5))
-                                            ]),
+                                        style: CustomTextStyle.buttonTextLarge(context),
                                       ),
                                     ),
                                   )),
@@ -280,18 +291,7 @@ class _TimerScreenState extends State<TimerScreen> {
                                       child: Text(
                                         'RESOLVE CITY',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1.0),
-                                            fontSize: 28,
-                                            fontWeight: FontWeight.bold,
-                                            shadows: [
-                                              Shadow(
-                                                  offset: Offset(2, 3),
-                                                  blurRadius: 3.0,
-                                                  color: Color.fromRGBO(
-                                                      50, 50, 50, 0.5))
-                                            ]),
+                                        style: CustomTextStyle.buttonTextLarge(context),
                                       ),
                                     ),
                                   )),

@@ -65,7 +65,9 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
                                         children: [
                                           Icon(Icons.refresh, color: Colors.white, size: 30,),
                                           SizedBox(width: 8,),
-                                          Text('Resume Game'.toUpperCase(), style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),),
+                                          Text('Resume Game'.toUpperCase(),
+                                            style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
+                                          ),
                                         ],
                                       )
                                   ),
@@ -127,7 +129,9 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   }
 
   void _navigateToTimer(BuildContext context, {Difficulty difficulty}) async {
-    gameState.initNewGame(difficulty: difficulty);
+    if (difficulty != Difficulty.RESUME) {
+      gameState.initNewGame(difficulty: difficulty);
+    }
     await Navigator.push(context, MaterialPageRoute(
         builder: (context) => TimerScreen()
     )).then((_) {

@@ -8,6 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:pandemic_timer/business_logic/models/difficulty.dart';
 
 class GameState extends ChangeNotifier {
+
+  // game saving properties
+  bool savedGame = false;
+  int currentTime = 120;
+  double timerAnimationCurrentTime = 0;
+  // TODO: current playtime of background music
+
   int _cardsInPlay = 0;
 
   int get cardsInPlay => _cardsInPlay;
@@ -15,9 +22,6 @@ class GameState extends ChangeNotifier {
   int _cardsInDeck = 0;
 
   int get cardsInDeck => _cardsInDeck;
-
-  int _totalCities;
-  int get totalCities => _totalCities;
 
   final int _maxTimeTokens = 9;
 
@@ -27,35 +31,40 @@ class GameState extends ChangeNotifier {
 
   int secondsRemaining = 120;
 
-  // game saving properties
-  bool savedGame = false;
-  int currentTime = 0;
-  // TODO: current playtime of background music
-
   void initNewGame({Difficulty difficulty}) {
     switch (difficulty) {
       case Difficulty.EASY:
         _cardsInPlay = 2;
         _cardsInDeck = 3;
+        currentTime = 120;
+        timerAnimationCurrentTime = 0;
         break;
 
       case Difficulty.NORMAL:
         _cardsInPlay = 2;
         _cardsInDeck = 5;
+        currentTime = 120;
+        timerAnimationCurrentTime = 0;
         break;
 
       case Difficulty.VETERAN:
         _cardsInPlay = 3;
         _cardsInDeck = 7;
+        currentTime = 120;
+        timerAnimationCurrentTime = 0;
         break;
 
       case Difficulty.HEROIC:
         _cardsInPlay = 4;
         _cardsInDeck = 9;
+        currentTime = 120;
+        timerAnimationCurrentTime = 0;
+        break;
+
+      case Difficulty.RESUME:
         break;
     }
 
-    _totalCities = _cardsInPlay + _cardsInDeck;
   }
 
   void resolveCity() {
@@ -104,7 +113,7 @@ class GameState extends ChangeNotifier {
   }
 
   @override
-  // ignore: must_call_super
   // need to keep singleton alive. cannot make a new one.
+  // ignore: must_call_super
   void dispose() {}
 }
