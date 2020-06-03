@@ -7,6 +7,7 @@
 import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -32,19 +33,26 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
 
+  // SharedPrefences
+  SharedPreferences prefs;
+  static const String _prefsMusicEnabled = 'musicEnabled';
+
   // Flare (Rive) Animaton Controllers
   TimerAnimationController _timerController;
 
   TokenAnimationController _tokenController;
 
   // audio players
-  final assetsAudioPlayer = AssetsAudioPlayer();
+  final _assetsSFXAudioPlayer = AssetsAudioPlayer();
+  final _musicAudioPlayer = AssetsAudioPlayer();
 
   // Timer props
   int _counter;
   String _timeDisplay;
   Timer _timer;
 
+  // toggles
+  bool _musicEnabled = true;
   String _startBtnText = 'START';
 
   /// Colors and Styles
@@ -60,7 +68,9 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
     _counter = gameStateModel.currentTime;
     _timeDisplay = '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
     // load alarm sound into player
-    assetsAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
+    _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
+    // load SharedPreferences
+    _loadMusicPrefs();
   }
 
   @override
@@ -71,19 +81,42 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
 
   @override
   void dispose() {
-    assetsAudioPlayer.dispose();
+    _assetsSFXAudioPlayer.dispose();
+    _musicAudioPlayer.dispose();
     super.dispose();
+  }
+
+  void _loadMusicPrefs() async {
+    // get SharedPreferences
+    if (prefs == null) {
+      prefs = await SharedPreferences.getInstance();
+    }
+
+    // set _musicEnabled to value from SharedPreferences
+    setState(() {
+      _musicEnabled = prefs.getBool(_prefsMusicEnabled) ?? true;
+    });
+
+    // open the music, and set the audio to the preference and move playhead to correct point.
+    _musicAudioPlayer.open(
+        Audio('assets/audio/ambientSoundtrack.mp3'),
+        autoStart: false,
+        volume: _musicEnabled ? 0.5 : 0.0,
+        seek: Duration(seconds: gameStateModel.musicPlayHeadPosition)
+    );
   }
 
   void _startTimer() {
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
       _timerController.play = false;
+      _musicAudioPlayer.pause();
       setState(() {
         _startBtnText = 'START';
       });
     } else {
       _timerController.play = true;
+      _musicAudioPlayer.play();
       setState(() {
         _startBtnText = 'PAUSE';
       });
@@ -98,10 +131,12 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
             // countdown complete
             _timer.cancel();
             _timerController.reset();
+            _musicAudioPlayer.pause();
+            _musicAudioPlayer.seek(Duration(seconds: 0));
             // check if there is still any time tokens remaining
             if (gameStateModel.timeTokensRemaining > 0) {
               // play alarm sound
-              assetsAudioPlayer.play();
+              _assetsSFXAudioPlayer.play();
               // show timerReset Dialog
               DialogHelper.timerReset(
                   context,
@@ -110,7 +145,7 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
                   });
             } else {
               // play a game end sound
-              assetsAudioPlayer.open(Audio('assets/audio/drama.mp3'));
+              _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
               // show gameOver Dialog
               DialogHelper.gameOver(context, callBack: () {
                 _exit();
@@ -148,18 +183,31 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
     if (_tokenController.idle == true) {
       gameStateModel.resolveCity();
       _tokenController.updateTokenCount(gameStateModel.timeTokensRemaining);
+      // check if victory conditions are met
+      if (gameStateModel.cardsInPlay == 0 && gameStateModel.cardsInDeck == 0) {
+        // WIN!!
+        // stop timer
+        if (_timer != null && _timer.isActive) {
+          _startTimer();
+        }
+        // play victory audio
+        _assetsSFXAudioPlayer.open(Audio('assets/audio/chimesGlassy.mp3'));
+        // show dialog
+        DialogHelper.gameVictory(context, callBack: () {
+          _exit();
+        });
+      }
     }
-  }
+    }
 
-  void _saveAndExit() {
+  void _saveAndExit() async {
     gameStateModel.savedGame = true;
     if (_timer != null && _timer.isActive) {
       _startTimer();
     }
     gameStateModel.currentTime = _counter;
     gameStateModel.timerAnimationCurrentTime = _timerController.time;
-    print('Timer animation time = ${gameStateModel.timerAnimationCurrentTime}');
-    // TODO: current playtime of background music
+    gameStateModel.musicPlayHeadPosition = _musicAudioPlayer.currentPosition.value.inSeconds;
     Navigator.of(context).pop();
   }
 
@@ -169,6 +217,18 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
       _timer.cancel();
     }
     Navigator.of(context).pop();
+  }
+
+  void _toggleMusic() async {
+    if (prefs == null) {
+      prefs = await SharedPreferences.getInstance();
+    }
+
+    setState(() {
+      _musicEnabled = !_musicEnabled;
+      _musicAudioPlayer.setVolume(_musicEnabled ? 0.5 : 0.0);
+      prefs.setBool(_prefsMusicEnabled, _musicEnabled);
+    });
   }
 
   double _getMargin(BuildContext context) {
@@ -202,7 +262,18 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 /** Spacer */
-                                SizedBox(width: 48,),
+                                Container(
+                                  child: IconButton(
+                                    icon: _musicEnabled ? Icon(Icons.volume_up) : Icon(Icons.volume_off),
+                                    iconSize: 32,
+                                    color: Colors.white,
+                                    highlightColor: Color.fromARGB(0, 0, 0, 0),
+                                    onPressed: () {
+                                      SystemSound.play(SystemSoundType.click);
+                                      _toggleMusic();
+                                    },
+                                  ),
+                                ),
                                 /** Sand Timer */
                                 Expanded(
                                   child: Container(
@@ -220,7 +291,22 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
                                     color: Colors.white,
                                     highlightColor: Color.fromARGB(0, 0, 0, 0),
                                     onPressed: () {
-                                      _saveAndExit();
+                                      // pause timer if running and flag if resume is needed.
+                                      bool _shouldResume = false;
+                                      if (_timer != null && _timer.isActive) {
+                                        _startTimer();
+                                        _shouldResume = true;
+                                      }
+                                      DialogHelper.exitConfirmation(context,
+                                          onConfirm: () {
+                                            _saveAndExit();
+                                          },
+                                          onCancel: () {
+                                            if (_shouldResume) {
+                                              _startTimer();
+                                            }
+                                          }
+                                      );
                                     },
                                   ),
                                 ),
@@ -277,11 +363,7 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
                               width: double.infinity,
                               child: CustomButton(
                                   onPress: () {
-                                    if (gameState.cardsInDeck == 0) {
-                                      return null;
-                                    } else {
                                       _resolveCity();
-                                    }
                                   },
                                   color: _resolveBtnColor,
                                   child: Center(

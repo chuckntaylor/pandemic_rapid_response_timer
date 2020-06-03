@@ -22,4 +22,12 @@ class CustomTextStyle {
         ]
     );
   }
+
+  static TextStyle dialogButtonLabel() {
+    return TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        color: Colors.white
+    );
+  }
 }

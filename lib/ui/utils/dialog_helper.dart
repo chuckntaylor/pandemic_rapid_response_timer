@@ -6,8 +6,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:pandemic_timer/ui/widgets/city_card_count_dialog.dart';
+import 'package:pandemic_timer/ui/widgets/exit_confirm_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/game_over_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/timer_reset_dialog.dart';
+import 'package:pandemic_timer/ui/widgets/victory_dialog.dart';
 
 class DialogHelper {
   static timerReset(BuildContext context, {Function callBack}) async {
@@ -45,5 +47,31 @@ class DialogHelper {
         builder: (context) {
           return CityCardCountDialog(onComplete: onComplete, onCancel: onCancel, cardCount: cardCount, title: title,);
         });
+  }
+
+  static gameVictory(BuildContext context, {@required Function callBack}) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return VictoryDialog(callBack: callBack,);
+      }
+    );
+  }
+
+  static exitConfirmation(BuildContext context, {
+    @required Function onConfirm,
+    @required Function onCancel
+}) {
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return ExitConfirmDialog(
+            onConfirm: onConfirm,
+            onCancel: onCancel,
+          );
+        }
+    );
   }
 }

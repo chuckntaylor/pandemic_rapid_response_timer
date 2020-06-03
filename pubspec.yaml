@@ -37,9 +37,10 @@ dependencies:
 
   google_fonts: ^1.1.0
 
-  assets_audio_player: ^1.6.3+1
+  assets_audio_player: ^2.0.0+2
 
   after_layout: ^1.0.7+2
+  shared_preferences: ^0.5.7+3
 
   cupertino_icons: ^0.1.3
 

@@ -13,7 +13,11 @@ class GameState extends ChangeNotifier {
   bool savedGame = false;
   int currentTime = 120;
   double timerAnimationCurrentTime = 0;
-  // TODO: current playtime of background music
+  int musicPlayHeadPosition = 0;
+
+  // Defaults
+  static const int _defaultStartingTimeTokens = 3;
+  static const int _defaultTimerLength = 120;
 
   int _cardsInPlay = 0;
 
@@ -25,40 +29,48 @@ class GameState extends ChangeNotifier {
 
   final int _maxTimeTokens = 9;
 
-  int _timeTokensRemaining = 3;
+  int _timeTokensRemaining;
 
   int get timeTokensRemaining => _timeTokensRemaining;
 
-  int secondsRemaining = 120;
+  int secondsRemaining;
 
   void initNewGame({Difficulty difficulty}) {
     switch (difficulty) {
       case Difficulty.EASY:
         _cardsInPlay = 2;
         _cardsInDeck = 3;
-        currentTime = 120;
+        currentTime = _defaultTimerLength;
         timerAnimationCurrentTime = 0;
+        musicPlayHeadPosition = 0;
+        _timeTokensRemaining = _defaultStartingTimeTokens;
         break;
 
       case Difficulty.NORMAL:
         _cardsInPlay = 2;
         _cardsInDeck = 5;
-        currentTime = 120;
+        currentTime = _defaultTimerLength;
         timerAnimationCurrentTime = 0;
+        musicPlayHeadPosition = 0;
+        _timeTokensRemaining = _defaultStartingTimeTokens;
         break;
 
       case Difficulty.VETERAN:
         _cardsInPlay = 3;
         _cardsInDeck = 7;
-        currentTime = 120;
+        currentTime = _defaultTimerLength;
         timerAnimationCurrentTime = 0;
+        musicPlayHeadPosition = 0;
+        _timeTokensRemaining = _defaultStartingTimeTokens;
         break;
 
       case Difficulty.HEROIC:
         _cardsInPlay = 4;
         _cardsInDeck = 9;
-        currentTime = 120;
+        currentTime = _defaultTimerLength;
         timerAnimationCurrentTime = 0;
+        musicPlayHeadPosition = 0;
+        _timeTokensRemaining = _defaultStartingTimeTokens;
         break;
 
       case Difficulty.RESUME:
