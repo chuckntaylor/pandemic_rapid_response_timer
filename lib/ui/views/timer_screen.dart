@@ -7,6 +7,7 @@
 import 'dart:ui';
 
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:pandemic_timer/ui/widgets/circle_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -21,6 +22,7 @@ import 'package:pandemic_timer/ui/utils/token_animation_controller.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
+import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -329,20 +331,17 @@ class _TimerScreenState extends State<TimerScreen>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                /** Spacer */
-                Container(
-                  child: IconButton(
-                    icon: _musicEnabled
-                        ? Icon(Icons.volume_up)
-                        : Icon(Icons.volume_off),
-                    iconSize: 32,
-                    color: Colors.white,
-                    highlightColor: Color.fromARGB(0, 0, 0, 0),
-                    onPressed: () {
-                      SystemSound.play(SystemSoundType.click);
-                      _toggleMusic();
-                    },
-                  ),
+                /** Music Toggle */
+                CircleButton(
+                  borderWidth: 6.0,
+                  size: 48,
+                  color: Colors.blue.lighter(30),
+                  onPress: () => _toggleMusic(),
+                  child: Icon(_musicEnabled
+                    ? Icons.volume_up
+                    : Icons.volume_off,
+                   color: Colors.white,
+                  size: 32,)
                 ),
                 /** Sand Timer */
                 Expanded(
@@ -354,13 +353,15 @@ class _TimerScreenState extends State<TimerScreen>
                   ),
                 ),
                 /** Exit Button */
-                Container(
-                  child: IconButton(
-                    icon: Icon(Icons.close),
-                    iconSize: 32,
+                CircleButton(
+                  borderWidth: 6.0,
+                  size: 48,
+                  color: Colors.redAccent,
+                  child: Icon(Icons.exit_to_app,
+                    size: 32,
                     color: Colors.white,
-                    highlightColor: Color.fromARGB(0, 0, 0, 0),
-                    onPressed: () {
+                  ),
+                    onPress: () {
                       // pause timer if running and flag if resume is needed.
                       bool _shouldResume = false;
                       if (_timer != null && _timer.isActive) {
@@ -376,7 +377,6 @@ class _TimerScreenState extends State<TimerScreen>
                       });
                     },
                   ),
-                ),
               ],
             ),
           ),
@@ -638,44 +638,42 @@ class _TimerScreenState extends State<TimerScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    /// Music Toggle
-                    Container(
-                      child: IconButton(
-                        icon: _musicEnabled
-                            ? Icon(Icons.volume_up)
-                            : Icon(Icons.volume_off),
-                        iconSize: 32,
-                        color: Colors.white,
-                        highlightColor: Color.fromARGB(0, 0, 0, 0),
-                        onPressed: () {
-                          SystemSound.play(SystemSoundType.click);
-                          _toggleMusic();
-                        },
-                      ),
+                    /** Music Toggle */
+                    CircleButton(
+                        borderWidth: 6.0,
+                        size: 48,
+                        color: Colors.blue.lighter(30),
+                        onPress: () => _toggleMusic(),
+                        child: Icon(_musicEnabled
+                            ? Icons.volume_up
+                            : Icons.volume_off,
+                          color: Colors.white,
+                          size: 32,)
                     ),
                     /** Exit Button */
-                    Container(
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        iconSize: 32,
+                    CircleButton(
+                      borderWidth: 6.0,
+                      size: 48,
+                      color: Colors.redAccent,
+                      child: Icon(Icons.exit_to_app,
+                        size: 32,
                         color: Colors.white,
-                        highlightColor: Color.fromARGB(0, 0, 0, 0),
-                        onPressed: () {
-                          // pause timer if running and flag if resume is needed.
-                          bool _shouldResume = false;
-                          if (_timer != null && _timer.isActive) {
-                            _startTimer();
-                            _shouldResume = true;
-                          }
-                          DialogHelper.exitConfirmation(context, onConfirm: () {
-                            _saveAndExit();
-                          }, onCancel: () {
-                            if (_shouldResume) {
-                              _startTimer();
-                            }
-                          });
-                        },
                       ),
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
+                          _startTimer();
+                          _shouldResume = true;
+                        }
+                        DialogHelper.exitConfirmation(context, onConfirm: () {
+                          _saveAndExit();
+                        }, onCancel: () {
+                          if (_shouldResume) {
+                            _startTimer();
+                          }
+                        });
+                      },
                     ),
                   ],
                 ),
