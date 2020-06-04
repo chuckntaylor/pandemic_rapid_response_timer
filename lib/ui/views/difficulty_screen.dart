@@ -79,7 +79,7 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
                           children: [
                             Icon(Icons.refresh, color: Colors.white, size: 30,),
                             SizedBox(width: 8,),
-                            Text('Resume Game'.toUpperCase(),
+                            Text(Strings.of(context).resumeGame.toUpperCase(),
                               style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
                             ),
                           ],
@@ -158,7 +158,7 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
                           children: [
                             Icon(Icons.refresh, color: Colors.white, size: 30,),
                             SizedBox(width: 8,),
-                            Text('Resume Game'.toUpperCase(),
+                            Text(Strings.of(context).resumeGame.toUpperCase(),
                               style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
                             ),
                           ],

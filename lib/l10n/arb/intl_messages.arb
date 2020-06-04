@@ -1,8 +1,14 @@
 {
-  "@@last_modified": "2020-05-14T23:26:48.126688",
+  "@@last_modified": "2020-06-04T16:21:53.525109",
   "title": "Pandemic Rapid Response Timer",
   "@title": {
     "description": "The title of the application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "resumeGame": "Resume Game",
+  "@resumeGame": {
+    "description": "Button text to resume a game if one is already in progress.",
     "type": "text",
     "placeholders": {}
   },

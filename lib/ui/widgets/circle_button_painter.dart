@@ -89,7 +89,7 @@ class CircleButtonPainter extends CustomPainter {
     final Paint _metalRingInnerPaint = Paint()..shader = _metalRingInnerGradient.createShader(Rect.fromCircle(center: Offset(centerX, centerY), radius: fullRadius - _metalOuterBorderWidth));
     final Paint _mainColorOuterPaint = Paint()..shader = _mainColorOuterGradient.createShader(Rect.fromCircle(center: Offset(centerX, centerY), radius: fullRadius - _metalInnerBorderWidth));
     final Paint _mainColorInnerPaint = Paint()..shader = _mainColorInnerGradient.createShader(Rect.fromCircle(center: Offset(centerX, centerY), radius: fullRadius));
-    final Paint _glossPaint = Paint()..shader = _mainColorInnerGradient.createShader(Rect.fromCircle(center: Offset(centerX, centerY ), radius: fullRadius));
+    final Paint _glossPaint = Paint()..shader = _glossGradient.createShader(Rect.fromCircle(center: Offset(centerX, centerY ), radius: fullRadius));
     _glossPaint.blendMode = BlendMode.multiply;
 
     // paths

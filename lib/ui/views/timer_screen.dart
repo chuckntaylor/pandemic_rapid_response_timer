@@ -73,7 +73,7 @@ class _TimerScreenState extends State<TimerScreen>
         tokenCount: gameStateModel.timeTokensRemaining);
     _counter = gameStateModel.currentTime;
     _timeDisplay =
-        '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
+      '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
     // load alarm sound into player
     _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'),
         autoStart: false);
@@ -151,13 +151,13 @@ class _TimerScreenState extends State<TimerScreen>
       setState(() {
         _startBtnText = 'PAUSE';
       });
-      _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
         setState(() {
           if (_counter > 0) {
             // continue countdown
             _counter--;
             _timeDisplay =
-                '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
+              '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
           } else {
             // countdown complete
             _timer.cancel();
@@ -197,8 +197,8 @@ class _TimerScreenState extends State<TimerScreen>
       _timerController.reset();
       _timerController.play = true;
       setState(() {
-        _counter = 120;
-        _timeDisplay = '2:00';
+        _counter = 1200;
+        _timeDisplay = '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
       });
       // it takes the sand timer one second to turn over before the sand starts to fall.
       // delay the start of the countdown timer by one second.

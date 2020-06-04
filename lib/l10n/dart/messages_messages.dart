@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "normal" : MessageLookupByLibrary.simpleMessage("Normal"),
     "numCityInDeck" : MessageLookupByLibrary.simpleMessage("City cards in deck"),
     "numCityPlaced" : MessageLookupByLibrary.simpleMessage("City cards placed"),
+    "resumeGame" : MessageLookupByLibrary.simpleMessage("Resume Game"),
     "semanticMissionIcon" : MessageLookupByLibrary.simpleMessage("mission icon"),
     "title" : MessageLookupByLibrary.simpleMessage("Pandemic Rapid Response Timer"),
     "veteran" : MessageLookupByLibrary.simpleMessage("Veteran")

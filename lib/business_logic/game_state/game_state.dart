@@ -17,7 +17,7 @@ class GameState extends ChangeNotifier {
 
   // Defaults
   static const int _defaultStartingTimeTokens = 3;
-  static const int _defaultTimerLength = 120;
+  static const int _defaultTimerLength = 1200;
 
   int _cardsInPlay = 0;
 

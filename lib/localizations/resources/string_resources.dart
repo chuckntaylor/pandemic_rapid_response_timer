@@ -15,7 +15,15 @@ mixin StringResources {
     );
   }
 
-  /* Difficulty Selection Screen */
+  /** Difficulty Selection Screen */
+  String get resumeGame {
+    return Intl.message(
+      'Resume Game',
+      name: 'resumeGame',
+      desc: 'Button text to resume a game if one is already in progress.'
+    );
+  }
+
   String get easy {
     return Intl.message(
         'Easy',
@@ -69,6 +77,15 @@ mixin StringResources {
       'mission icon',
       name: 'semanticMissionIcon',
       desc: 'Used in the semantic label for the difficulty icons'
+    );
+  }
+
+  /** Timer Screen */
+  String get start {
+    return Intl.message(
+      'start',
+      name: 'start',
+      desc: 'Button label to \'start\' the timer'
     );
   }
 }

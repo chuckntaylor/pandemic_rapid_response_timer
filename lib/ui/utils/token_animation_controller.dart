@@ -100,34 +100,34 @@ class TokenAnimationController extends FlareController {
     // get reference to the artboard
     _artboard = artboard;
     // provide reference to the animation components the will be affected by this controller
-    _idle_0 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_0));
-    _idle_1 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_1));
-    _idle_2 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_2));
-    _idle_3 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_3));
-    _idle_4 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_4));
-    _idle_5 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_5));
-    _idle_6 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_6));
-    _idle_7 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_7));
-    _idle_8 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_8));
-    _idle_9 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.IDLE_9));
-    _0_to_1 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_0_TO_1));
-    _1_to_2 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_1_TO_2));
-    _2_to_3 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_2_TO_3));
-    _3_to_4 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_3_TO_4));
-    _4_to_5 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_4_TO_5));
-    _5_to_6 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_5_TO_6));
-    _6_to_7 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_6_TO_7));
-    _7_to_8 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_7_TO_8));
-    _8_to_9 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_8_TO_9));
-    _9_to_8 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_9_TO_8));
-    _8_to_7 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_8_TO_7));
-    _7_to_6 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_7_TO_6));
-    _6_to_5 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_6_TO_5));
-    _5_to_4 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_5_TO_4));
-    _4_to_3 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_4_TO_3));
-    _3_to_2 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_3_TO_2));
-    _2_to_1 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_2_TO_1));
-    _1_to_0 = artboard.getAnimation(_getTokenAnimation(TokenAnimation.GO_1_TO_0));
+    _idle_0 = artboard.getAnimation(TokenAnimation.IDLE_0);
+    _idle_1 = artboard.getAnimation(TokenAnimation.IDLE_1);
+    _idle_2 = artboard.getAnimation(TokenAnimation.IDLE_2);
+    _idle_3 = artboard.getAnimation(TokenAnimation.IDLE_3);
+    _idle_4 = artboard.getAnimation(TokenAnimation.IDLE_4);
+    _idle_5 = artboard.getAnimation(TokenAnimation.IDLE_5);
+    _idle_6 = artboard.getAnimation(TokenAnimation.IDLE_6);
+    _idle_7 = artboard.getAnimation(TokenAnimation.IDLE_7);
+    _idle_8 = artboard.getAnimation(TokenAnimation.IDLE_8);
+    _idle_9 = artboard.getAnimation(TokenAnimation.IDLE_9);
+    _0_to_1 = artboard.getAnimation(TokenAnimation.GO_0_TO_1);
+    _1_to_2 = artboard.getAnimation(TokenAnimation.GO_1_TO_2);
+    _2_to_3 = artboard.getAnimation(TokenAnimation.GO_2_TO_3);
+    _3_to_4 = artboard.getAnimation(TokenAnimation.GO_3_TO_4);
+    _4_to_5 = artboard.getAnimation(TokenAnimation.GO_4_TO_5);
+    _5_to_6 = artboard.getAnimation(TokenAnimation.GO_5_TO_6);
+    _6_to_7 = artboard.getAnimation(TokenAnimation.GO_6_TO_7);
+    _7_to_8 = artboard.getAnimation(TokenAnimation.GO_7_TO_8);
+    _8_to_9 = artboard.getAnimation(TokenAnimation.GO_8_TO_9);
+    _9_to_8 = artboard.getAnimation(TokenAnimation.GO_9_TO_8);
+    _8_to_7 = artboard.getAnimation(TokenAnimation.GO_8_TO_7);
+    _7_to_6 = artboard.getAnimation(TokenAnimation.GO_7_TO_6);
+    _6_to_5 = artboard.getAnimation(TokenAnimation.GO_6_TO_5);
+    _5_to_4 = artboard.getAnimation(TokenAnimation.GO_5_TO_4);
+    _4_to_3 = artboard.getAnimation(TokenAnimation.GO_4_TO_3);
+    _3_to_2 = artboard.getAnimation(TokenAnimation.GO_3_TO_2);
+    _2_to_1 = artboard.getAnimation(TokenAnimation.GO_2_TO_1);
+    _1_to_0 = artboard.getAnimation(TokenAnimation.GO_1_TO_0);
   }
 
   @override
@@ -197,96 +197,35 @@ class TokenAnimationController extends FlareController {
     }
   }
 
-  String _getTokenAnimation(TokenAnimation tokenAnimation) {
-    switch (tokenAnimation) {
-      case TokenAnimation.IDLE_0:
-        return 'idle_0';
-      case TokenAnimation.IDLE_1:
-        return 'idle_1';
-      case TokenAnimation.IDLE_2:
-        return 'idle_2';
-      case TokenAnimation.IDLE_3:
-        return 'idle_3';
-      case TokenAnimation.IDLE_4:
-        return 'idle_4';
-      case TokenAnimation.IDLE_5:
-        return 'idle_5';
-      case TokenAnimation.IDLE_6:
-        return 'idle_6';
-      case TokenAnimation.IDLE_7:
-        return 'idle_7';
-      case TokenAnimation.IDLE_8:
-        return 'idle_8';
-      case TokenAnimation.IDLE_9:
-        return 'idle_9';
-      case TokenAnimation.GO_0_TO_1:
-        return '0_to_1';
-      case TokenAnimation.GO_1_TO_2:
-        return '1_to_2';
-      case TokenAnimation.GO_2_TO_3:
-        return '2_to_3';
-      case TokenAnimation.GO_3_TO_4:
-        return '3_to_4';
-      case TokenAnimation.GO_4_TO_5:
-        return '4_to_5';
-      case TokenAnimation.GO_5_TO_6:
-        return '5_to_6';
-      case TokenAnimation.GO_6_TO_7:
-        return '6_to_7';
-      case TokenAnimation.GO_7_TO_8:
-        return '7_to_8';
-      case TokenAnimation.GO_8_TO_9:
-        return '8_to_9';
-      case TokenAnimation.GO_9_TO_8:
-        return '9_to_8';
-      case TokenAnimation.GO_8_TO_7:
-        return '8_to_7';
-      case TokenAnimation.GO_7_TO_6:
-        return '7_to_6';
-      case TokenAnimation.GO_6_TO_5:
-        return '6_to_5';
-      case TokenAnimation.GO_5_TO_4:
-        return '5_to_4';
-      case TokenAnimation.GO_4_TO_3:
-        return '4_to_3';
-      case TokenAnimation.GO_3_TO_2:
-        return '3_to_2';
-      case TokenAnimation.GO_2_TO_1:
-        return '2_to_1';
-      case TokenAnimation.GO_1_TO_0:
-        return '1_to_0';
-    }
-  }
-
 }
 
-enum TokenAnimation {
-  IDLE_0,
-  IDLE_1,
-  IDLE_2,
-  IDLE_3,
-  IDLE_4,
-  IDLE_5,
-  IDLE_6,
-  IDLE_7,
-  IDLE_8,
-  IDLE_9,
-  GO_0_TO_1,
-  GO_1_TO_2,
-  GO_2_TO_3,
-  GO_3_TO_4,
-  GO_4_TO_5,
-  GO_5_TO_6,
-  GO_6_TO_7,
-  GO_7_TO_8,
-  GO_8_TO_9,
-  GO_9_TO_8,
-  GO_8_TO_7,
-  GO_7_TO_6,
-  GO_6_TO_5,
-  GO_5_TO_4,
-  GO_4_TO_3,
-  GO_3_TO_2,
-  GO_2_TO_1,
-  GO_1_TO_0,
+abstract class TokenAnimation {
+  static const String IDLE_0 = 'idle_0';
+  static const String IDLE_1 = 'idle_1';
+  static const String IDLE_2 = 'idle_2';
+  static const String IDLE_3 = 'idle_3';
+  static const String IDLE_4 = 'idle_4';
+  static const String IDLE_5 = 'idle_5';
+  static const String IDLE_6 = 'idle_6';
+  static const String IDLE_7 = 'idle_7';
+  static const String IDLE_8 = 'idle_8';
+  static const String IDLE_9 = 'idle_9';
+  static const String GO_0_TO_1 = '0_to_1';
+  static const String GO_1_TO_2 = '1_to_2';
+  static const String GO_2_TO_3 = '2_to_3';
+  static const String GO_3_TO_4 = '3_to_4';
+  static const String GO_4_TO_5 = '4_to_5';
+  static const String GO_5_TO_6 = '5_to_6';
+  static const String GO_6_TO_7 = '6_to_7';
+  static const String GO_7_TO_8 = '7_to_8';
+  static const String GO_8_TO_9 = '8_to_9';
+  static const String GO_9_TO_8 = '9_to_8';
+  static const String GO_8_TO_7 = '8_to_7';
+  static const String GO_7_TO_6 = '7_to_6';
+  static const String GO_6_TO_5 = '6_to_5';
+  static const String GO_5_TO_4 = '5_to_4';
+  static const String GO_4_TO_3 = '4_to_3';
+  static const String GO_3_TO_2 = '3_to_2';
+  static const String GO_2_TO_1 = '2_to_1';
+  static const String GO_1_TO_0 = '1_to_0';
 }
