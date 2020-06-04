@@ -49,13 +49,16 @@ class TimerAnimationController extends FlareController {
     _run = artboard.getAnimation(_getTimerAnimation(TimerAnimation.RUN));
     _artboard = artboard;
     _flip.apply(0, artboard, 1.0);
+    _setTimerPlayhead();
   }
 
   @override
   void setViewTransform(Mat2D viewTransform) {
   }
 
-  void setTimerPlayhead() {
+
+
+  void _setTimerPlayhead() {
     if (time > 0) {
       _flip.apply(0, _artboard, 1.0);
       _run.apply(time, _artboard, 1.0);
@@ -67,9 +70,20 @@ class TimerAnimationController extends FlareController {
 String _getTimerAnimation(TimerAnimation timerAnimation) {
   switch (timerAnimation) {
     case TimerAnimation.FLIP:
-      return 'timerFlip';
+      {
+        return 'timerFlip';
+      }
+      break;
     case TimerAnimation.RUN:
-      return 'timerRun';
+      {
+        return 'timerRun';
+      }
+      break;
+    default: {
+      FormatException('_getTimerAnimation was called without a suitable TimerAnimation value. Function called with: $timerAnimation');
+      return '';
+    }
+      break;
   }
 }
 

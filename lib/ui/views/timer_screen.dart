@@ -21,7 +21,6 @@ import 'package:pandemic_timer/ui/utils/token_animation_controller.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
-import 'package:after_layout/after_layout.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -29,7 +28,7 @@ class TimerScreen extends StatefulWidget {
 }
 
 class _TimerScreenState extends State<TimerScreen>
-    with AfterLayoutMixin<TimerScreen>, WidgetsBindingObserver {
+    with WidgetsBindingObserver {
   /// Properties
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
@@ -66,8 +65,8 @@ class _TimerScreenState extends State<TimerScreen>
     super.initState();
     // add observer to get app lifecycle
     WidgetsBinding.instance.addObserver(this);
-
     _timerController = TimerAnimationController(play: false);
+    _timerController.time = gameStateModel.timerAnimationCurrentTime;
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
     _counter = gameStateModel.currentTime;
@@ -106,12 +105,6 @@ class _TimerScreenState extends State<TimerScreen>
       default:
         break;
     }
-  }
-
-  @override
-  void afterFirstLayout(BuildContext context) {
-    _timerController.time = gameStateModel.timerAnimationCurrentTime;
-    _timerController.setTimerPlayhead();
   }
 
   @override
