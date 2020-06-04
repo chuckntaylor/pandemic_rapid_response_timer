@@ -93,13 +93,13 @@ class _TimerScreenState extends State<TimerScreen>
           } else {
             _shouldResume = false;
           }
-          _startTimer();
+          _toggleTimer();
           break;
         }
       case AppLifecycleState.resumed:
         {
           if (_shouldResume) {
-            _startTimer();
+            _toggleTimer();
           }
           _shouldResume = false;
           break;
@@ -137,7 +137,7 @@ class _TimerScreenState extends State<TimerScreen>
         seek: Duration(seconds: gameStateModel.musicPlayHeadPosition));
   }
 
-  void _startTimer() {
+  void _toggleTimer() {
     if (_timer != null && _timer.isActive) {
       _timer.cancel();
       _timerController.play = false;
@@ -203,7 +203,7 @@ class _TimerScreenState extends State<TimerScreen>
       // it takes the sand timer one second to turn over before the sand starts to fall.
       // delay the start of the countdown timer by one second.
       await new Future.delayed(const Duration(seconds: 1), () {
-        _startTimer();
+        _toggleTimer();
       });
     }
   }
@@ -217,7 +217,7 @@ class _TimerScreenState extends State<TimerScreen>
         // WIN!!
         // stop timer
         if (_timer != null && _timer.isActive) {
-          _startTimer();
+          _toggleTimer();
         }
         // play victory audio
         _assetsSFXAudioPlayer.open(Audio('assets/audio/chimesGlassy.mp3'));
@@ -232,7 +232,7 @@ class _TimerScreenState extends State<TimerScreen>
   void _saveAndExit() async {
     gameStateModel.savedGame = true;
     if (_timer != null && _timer.isActive) {
-      _startTimer();
+      _toggleTimer();
     }
     gameStateModel.currentTime = _counter;
     gameStateModel.timerAnimationCurrentTime = _timerController.time;
@@ -264,14 +264,14 @@ class _TimerScreenState extends State<TimerScreen>
   Future<bool> _onAndroidBackPressed() {
     bool _shouldResume = false;
     if (_timer != null && _timer.isActive) {
-      _startTimer();
+      _toggleTimer();
       _shouldResume = true;
     }
     DialogHelper.exitConfirmation(context, onConfirm: () {
       _saveAndExit();
     }, onCancel: () {
       if (_shouldResume) {
-        _startTimer();
+        _toggleTimer();
       }
     });
 
@@ -365,14 +365,14 @@ class _TimerScreenState extends State<TimerScreen>
                       // pause timer if running and flag if resume is needed.
                       bool _shouldResume = false;
                       if (_timer != null && _timer.isActive) {
-                        _startTimer();
+                        _toggleTimer();
                         _shouldResume = true;
                       }
                       DialogHelper.exitConfirmation(context, onConfirm: () {
                         _saveAndExit();
                       }, onCancel: () {
                         if (_shouldResume) {
-                          _startTimer();
+                          _toggleTimer();
                         }
                       });
                     },
@@ -406,7 +406,7 @@ class _TimerScreenState extends State<TimerScreen>
               width: double.infinity,
               child: CustomButton(
                   onPress: () {
-                    _startTimer();
+                    _toggleTimer();
                   },
                   color: _startBtnColor,
                   child: Center(
@@ -463,7 +463,7 @@ class _TimerScreenState extends State<TimerScreen>
                         // pause timer if running and flag if resume is needed.
                         bool _shouldResume = false;
                         if (_timer != null && _timer.isActive) {
-                          _startTimer();
+                          _toggleTimer();
                           _shouldResume = true;
                         }
                         DialogHelper.cityCardCount(
@@ -474,13 +474,13 @@ class _TimerScreenState extends State<TimerScreen>
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInPlay(newCardCount);
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                           onCancel: () {
                             Navigator.of(context).pop();
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                         );
@@ -543,7 +543,7 @@ class _TimerScreenState extends State<TimerScreen>
                         // pause timer if running and flag if resume is needed.
                         bool _shouldResume = false;
                         if (_timer != null && _timer.isActive) {
-                          _startTimer();
+                          _toggleTimer();
                           _shouldResume = true;
                         }
                         // open dialog
@@ -555,13 +555,13 @@ class _TimerScreenState extends State<TimerScreen>
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInDeck(newCardCount);
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                           onCancel: () {
                             Navigator.of(context).pop();
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                         );
@@ -663,14 +663,14 @@ class _TimerScreenState extends State<TimerScreen>
                         // pause timer if running and flag if resume is needed.
                         bool _shouldResume = false;
                         if (_timer != null && _timer.isActive) {
-                          _startTimer();
+                          _toggleTimer();
                           _shouldResume = true;
                         }
                         DialogHelper.exitConfirmation(context, onConfirm: () {
                           _saveAndExit();
                         }, onCancel: () {
                           if (_shouldResume) {
-                            _startTimer();
+                            _toggleTimer();
                           }
                         });
                       },
@@ -682,7 +682,7 @@ class _TimerScreenState extends State<TimerScreen>
                 Container(
                   child: CustomButton(
                       onPress: () {
-                        _startTimer();
+                        _toggleTimer();
                       },
                       color: _startBtnColor,
                       child: Center(
@@ -727,7 +727,7 @@ class _TimerScreenState extends State<TimerScreen>
                         // pause timer if running and flag if resume is needed.
                         bool _shouldResume = false;
                         if (_timer != null && _timer.isActive) {
-                          _startTimer();
+                          _toggleTimer();
                           _shouldResume = true;
                         }
                         DialogHelper.cityCardCount(
@@ -738,13 +738,13 @@ class _TimerScreenState extends State<TimerScreen>
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInPlay(newCardCount);
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                           onCancel: () {
                             Navigator.of(context).pop();
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                         );
@@ -805,7 +805,7 @@ class _TimerScreenState extends State<TimerScreen>
                         // pause timer if running and flag if resume is needed.
                         bool _shouldResume = false;
                         if (_timer != null && _timer.isActive) {
-                          _startTimer();
+                          _toggleTimer();
                           _shouldResume = true;
                         }
                         // open dialog
@@ -817,13 +817,13 @@ class _TimerScreenState extends State<TimerScreen>
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInDeck(newCardCount);
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                           onCancel: () {
                             Navigator.of(context).pop();
                             if (_shouldResume) {
-                              _startTimer();
+                              _toggleTimer();
                             }
                           },
                         );
