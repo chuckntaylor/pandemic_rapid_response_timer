@@ -42,7 +42,9 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
           child: Container(
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage('assets/images/speakerGrill.png'),
+                    image: MediaQuery.of(context).orientation == Orientation.portrait
+                        ? AssetImage('assets/images/speakerGrillPortrait.png')
+                        : AssetImage('assets/images/speakerGrillLandscape.png'),
                     fit: BoxFit.cover)),
             child: SafeArea(
               child: OrientationBuilder(builder: (context, orientation) {

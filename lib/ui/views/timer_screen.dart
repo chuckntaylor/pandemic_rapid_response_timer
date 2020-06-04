@@ -28,8 +28,8 @@ class TimerScreen extends StatefulWidget {
   _TimerScreenState createState() => _TimerScreenState();
 }
 
-class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerScreen>, WidgetsBindingObserver {
-
+class _TimerScreenState extends State<TimerScreen>
+    with AfterLayoutMixin<TimerScreen>, WidgetsBindingObserver {
   /// Properties
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
@@ -71,35 +71,38 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
     _counter = gameStateModel.currentTime;
-    _timeDisplay = '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
+    _timeDisplay =
+        '${_counter ~/ 60}:${(_counter % 60).toString().padLeft(2, '0')}';
     // load alarm sound into player
-    _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'), autoStart: false);
+    _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'),
+        autoStart: false);
     // load SharedPreferences
     _loadMusicPrefs();
     // Keep the device awake on this screen
     Wakelock.enable();
   }
 
-
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
-      case AppLifecycleState.paused: {
-        if (_timer != null && _timer.isActive) {
-          _shouldResume = true;
-        } else {
-          _shouldResume = false;
-        }
-        _startTimer();
-        break;
-      }
-      case AppLifecycleState.resumed: {
-        if (_shouldResume) {
+      case AppLifecycleState.paused:
+        {
+          if (_timer != null && _timer.isActive) {
+            _shouldResume = true;
+          } else {
+            _shouldResume = false;
+          }
           _startTimer();
+          break;
         }
-        _shouldResume = false;
-        break;
-      }
+      case AppLifecycleState.resumed:
+        {
+          if (_shouldResume) {
+            _startTimer();
+          }
+          _shouldResume = false;
+          break;
+        }
       default:
         break;
     }
@@ -133,12 +136,10 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
     });
 
     // open the music, and set the audio to the preference and move playhead to correct point.
-    _musicAudioPlayer.open(
-        Audio('assets/audio/ambientSoundtrack.mp3'),
+    _musicAudioPlayer.open(Audio('assets/audio/ambientSoundtrack.mp3'),
         autoStart: false,
         volume: _musicEnabled ? 0.5 : 0.0,
-        seek: Duration(seconds: gameStateModel.musicPlayHeadPosition)
-    );
+        seek: Duration(seconds: gameStateModel.musicPlayHeadPosition));
   }
 
   void _startTimer() {
@@ -166,18 +167,16 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
             // countdown complete
             _timer.cancel();
             _timerController.reset();
-            _musicAudioPlayer.pause();
             _musicAudioPlayer.seek(Duration(seconds: 0));
+            _musicAudioPlayer.pause();
             // check if there is still any time tokens remaining
             if (gameStateModel.timeTokensRemaining > 0) {
               // play alarm sound
               _assetsSFXAudioPlayer.play();
               // show timerReset Dialog
-              DialogHelper.timerReset(
-                  context,
-                  callBack: () {
-                    _removeToken();
-                  });
+              DialogHelper.timerReset(context, callBack: () {
+                _removeToken();
+              });
             } else {
               // play a game end sound
               _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
@@ -233,7 +232,7 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
         });
       }
     }
-    }
+  }
 
   void _saveAndExit() async {
     gameStateModel.savedGame = true;
@@ -242,7 +241,8 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
     }
     gameStateModel.currentTime = _counter;
     gameStateModel.timerAnimationCurrentTime = _timerController.time;
-    gameStateModel.musicPlayHeadPosition = _musicAudioPlayer.currentPosition.value.inSeconds;
+    gameStateModel.musicPlayHeadPosition =
+        _musicAudioPlayer.currentPosition.value.inSeconds;
     Navigator.of(context).pop();
   }
 
@@ -272,16 +272,13 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
       _startTimer();
       _shouldResume = true;
     }
-    DialogHelper.exitConfirmation(context,
-        onConfirm: () {
-          _saveAndExit();
-        },
-        onCancel: () {
-          if (_shouldResume) {
-            _startTimer();
-          }
-        }
-    );
+    DialogHelper.exitConfirmation(context, onConfirm: () {
+      _saveAndExit();
+    }, onCancel: () {
+      if (_shouldResume) {
+        _startTimer();
+      }
+    });
 
     Completer completer = Completer<bool>();
     completer.complete(false);
@@ -304,312 +301,19 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
               child: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/images/speakerGrill.png'),
+                        image: MediaQuery.of(context).orientation == Orientation.portrait
+                          ? AssetImage('assets/images/speakerGrillPortrait.png')
+                          : AssetImage('assets/images/speakerGrillLandscape.png'),
                         fit: BoxFit.cover)),
                 child: SafeArea(
                   child: Consumer<GameState>(
                     builder: (context, gameState, child) {
-                      return Container(
-                        child: Column(
-                          children: [
-                            /** Top Spacer */
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Expanded(
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  /** Spacer */
-                                  Container(
-                                    child: IconButton(
-                                      icon: _musicEnabled ? Icon(Icons.volume_up) : Icon(Icons.volume_off),
-                                      iconSize: 32,
-                                      color: Colors.white,
-                                      highlightColor: Color.fromARGB(0, 0, 0, 0),
-                                      onPressed: () {
-                                        SystemSound.play(SystemSoundType.click);
-                                        _toggleMusic();
-                                      },
-                                    ),
-                                  ),
-                                  /** Sand Timer */
-                                  Expanded(
-                                    child: Container(
-                                      child: FlareActor(
-                                        'assets/animations/sandTimer.flr',
-                                        controller: _timerController,
-                                      ),
-                                    ),
-                                  ),
-                                  /** Exit Button */
-                                  Container(
-                                    child: IconButton(
-                                      icon: Icon(Icons.close),
-                                      iconSize: 32,
-                                      color: Colors.white,
-                                      highlightColor: Color.fromARGB(0, 0, 0, 0),
-                                      onPressed: () {
-                                        // pause timer if running and flag if resume is needed.
-                                        bool _shouldResume = false;
-                                        if (_timer != null && _timer.isActive) {
-                                          _startTimer();
-                                          _shouldResume = true;
-                                        }
-                                        DialogHelper.exitConfirmation(context,
-                                            onConfirm: () {
-                                              _saveAndExit();
-                                            },
-                                            onCancel: () {
-                                              if (_shouldResume) {
-                                                _startTimer();
-                                              }
-                                            }
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            /** Time Tokens */
-                            Container(
-                              height: 60,
-                              child: FlareActor(
-                                'assets/animations/timeTokens.flr',
-                                controller: _tokenController,
-                              ),
-                            ),
-                            /** Time Display */
-                            Text(
-                              _timeDisplay,
-                              style: TextStyle(
-                                  fontSize: 64,
-                                  color: Colors.yellow,
-                                  fontWeight: FontWeight.w300,
-                                  fontFamily: 'Operator Mono',
-                              ),
-                            ),
-
-                            /** Start/Pause Button */
-                            Container(
-                              margin: EdgeInsets.all(_getMargin(context)),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: CustomButton(
-                                    onPress: () {
-                                      _startTimer();
-                                    },
-                                    color: _startBtnColor,
-                                    child: Center(
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-                                        child: Text(
-                                          _startBtnText,
-                                          textAlign: TextAlign.center,
-                                          style: CustomTextStyle.buttonTextLarge(context),
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ),
-
-                            /// Resolve City Button
-                            Container(
-                              margin: EdgeInsets.all(_getMargin(context)),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: CustomButton(
-                                    onPress: () {
-                                        _resolveCity();
-                                    },
-                                    color: _resolveBtnColor,
-                                    child: Center(
-                                      child: Container(
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
-                                        child: Text(
-                                          'RESOLVE CITY',
-                                          textAlign: TextAlign.center,
-                                          style: CustomTextStyle.buttonTextLarge(context),
-                                        ),
-                                      ),
-                                    )),
-                              ),
-                            ),
-                            /// Bottom row of buttons
-                            Container(
-                              margin: EdgeInsets.all(_getMargin(context)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  /// City Cards In Play
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.45,
-                                    child: CustomButton(
-                                        onPress: () {
-                                          // pause timer if running and flag if resume is needed.
-                                          bool _shouldResume = false;
-                                          if (_timer != null && _timer.isActive) {
-                                            _startTimer();
-                                            _shouldResume = true;
-                                          }
-                                          DialogHelper.cityCardCount(context,
-                                              cardCount: gameState.cardsInPlay,
-                                              title: 'City cards\nin play',
-                                              onComplete: (int newCardCount) {
-                                                Navigator.of(context).pop();
-                                                gameStateModel.setCardsInPlay(newCardCount);
-                                                if (_shouldResume) {
-                                                  _startTimer();
-                                                }
-                                              },
-                                            onCancel: () {
-                                              Navigator.of(context).pop();
-                                              if (_shouldResume) {
-                                                _startTimer();
-                                              }
-                                            },
-                                          );
-                                        },
-                                        child: Center(
-                                          child: Container(
-                                            margin: EdgeInsets.only(bottom: 5),
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: IntrinsicHeight(
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'City cards in play:',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.bold,
-                                                          shadows: [
-                                                            Shadow(
-                                                                offset: Offset(2, 3),
-                                                                blurRadius: 3.0,
-                                                                color: Color.fromRGBO(
-                                                                    50, 50, 50, 1))
-                                                          ]
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  VerticalDivider(
-                                                    width: 20,
-                                                    thickness: 2,
-                                                    color: Color.fromRGBO(255, 255, 255, 0.7),
-                                                  ),
-                                                  Text(gameState.cardsInPlay.toString(),
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 32,
-                                                        shadows: [
-                                                          Shadow(
-                                                              offset: Offset(2, 3),
-                                                              blurRadius: 3.0,
-                                                              color: Color.fromRGBO(
-                                                                  50, 50, 50, 1))
-                                                        ]
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                  /// City Cards In Deck
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.45,
-                                    child: CustomButton(
-                                        onPress: () {
-                                          // pause timer if running and flag if resume is needed.
-                                          bool _shouldResume = false;
-                                          if (_timer != null && _timer.isActive) {
-                                            _startTimer();
-                                            _shouldResume = true;
-                                          }
-                                          // open dialog
-                                          DialogHelper.cityCardCount(context,
-                                              cardCount: gameState.cardsInDeck,
-                                              title: 'City cards\nin deck',
-                                              onComplete: (int newCardCount) {
-                                                Navigator.of(context).pop();
-                                                gameStateModel.setCardsInDeck(newCardCount);
-                                                if (_shouldResume) {
-                                                  _startTimer();
-                                                }
-                                              },
-                                            onCancel: () {
-                                              Navigator.of(context).pop();
-                                              if (_shouldResume) {
-                                                _startTimer();
-                                              }
-                                            },
-                                          );
-                                        },
-                                        child: Center(
-                                          child: Container(
-                                            margin: EdgeInsets.only(bottom: 5),
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: IntrinsicHeight(
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'City cards in deck:',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.bold,
-                                                          shadows: [
-                                                            Shadow(
-                                                                offset: Offset(2, 3),
-                                                                blurRadius: 3.0,
-                                                                color: Color.fromRGBO(
-                                                                    50, 50, 50, 1))
-                                                          ]
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  VerticalDivider(
-                                                    width: 20,
-                                                    thickness: 2,
-                                                    color: Color.fromRGBO(255, 255, 255, 0.7),
-                                                  ),
-                                                  Text(gameState.cardsInDeck.toString(),
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                          fontWeight: FontWeight.bold,
-                                                        fontSize: 32,
-                                                        shadows: [
-                                                          Shadow(
-                                                              offset: Offset(2, 3),
-                                                              blurRadius: 3.0,
-                                                              color: Color.fromRGBO(
-                                                                  50, 50, 50, 1))
-                                                        ]
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                      return OrientationBuilder(
+                        builder: (context, orientation) {
+                          return orientation == Orientation.portrait
+                              ? _portraitLayout(gameState)
+                              : _landscapeLayout(gameState);
+                        },
                       );
                     },
                   ),
@@ -618,5 +322,615 @@ class _TimerScreenState extends State<TimerScreen> with AfterLayoutMixin<TimerSc
             ),
           ),
         ));
+  }
+
+  Widget _portraitLayout(GameState gameState) {
+    return Container(
+      child: Column(
+        children: [
+          /** Top Spacer */
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /** Spacer */
+                Container(
+                  child: IconButton(
+                    icon: _musicEnabled
+                        ? Icon(Icons.volume_up)
+                        : Icon(Icons.volume_off),
+                    iconSize: 32,
+                    color: Colors.white,
+                    highlightColor: Color.fromARGB(0, 0, 0, 0),
+                    onPressed: () {
+                      SystemSound.play(SystemSoundType.click);
+                      _toggleMusic();
+                    },
+                  ),
+                ),
+                /** Sand Timer */
+                Expanded(
+                  child: Container(
+                    child: FlareActor(
+                      'assets/animations/sandTimer.flr',
+                      controller: _timerController,
+                    ),
+                  ),
+                ),
+                /** Exit Button */
+                Container(
+                  child: IconButton(
+                    icon: Icon(Icons.close),
+                    iconSize: 32,
+                    color: Colors.white,
+                    highlightColor: Color.fromARGB(0, 0, 0, 0),
+                    onPressed: () {
+                      // pause timer if running and flag if resume is needed.
+                      bool _shouldResume = false;
+                      if (_timer != null && _timer.isActive) {
+                        _startTimer();
+                        _shouldResume = true;
+                      }
+                      DialogHelper.exitConfirmation(context, onConfirm: () {
+                        _saveAndExit();
+                      }, onCancel: () {
+                        if (_shouldResume) {
+                          _startTimer();
+                        }
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          /** Time Tokens */
+          Container(
+            height: 60,
+            child: FlareActor(
+              'assets/animations/timeTokens.flr',
+              controller: _tokenController,
+            ),
+          ),
+          /** Time Display */
+          Text(
+            _timeDisplay,
+            style: TextStyle(
+              fontSize: 64,
+              color: Colors.yellow,
+              fontWeight: FontWeight.w300,
+              fontFamily: 'Operator Mono',
+            ),
+          ),
+
+          /** Start/Pause Button */
+          Container(
+            margin: EdgeInsets.all(_getMargin(context)),
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                  onPress: () {
+                    _startTimer();
+                  },
+                  color: _startBtnColor,
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 20.0),
+                      child: Text(
+                        _startBtnText,
+                        textAlign: TextAlign.center,
+                        style: CustomTextStyle.buttonTextLarge(context),
+                      ),
+                    ),
+                  )),
+            ),
+          ),
+
+          /// Resolve City Button
+          Container(
+            margin: EdgeInsets.all(_getMargin(context)),
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                  onPress: () {
+                    _resolveCity();
+                  },
+                  color: _resolveBtnColor,
+                  child: Center(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 20.0),
+                      child: Text(
+                        'RESOLVE CITY',
+                        textAlign: TextAlign.center,
+                        style: CustomTextStyle.buttonTextLarge(context),
+                      ),
+                    ),
+                  )),
+            ),
+          ),
+
+          /// Bottom row of buttons
+          Container(
+            margin: EdgeInsets.all(_getMargin(context)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                /// City Cards In Play
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  child: CustomButton(
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
+                          _startTimer();
+                          _shouldResume = true;
+                        }
+                        DialogHelper.cityCardCount(
+                          context,
+                          cardCount: gameState.cardsInPlay,
+                          title: 'City cards\nin play',
+                          onComplete: (int newCardCount) {
+                            Navigator.of(context).pop();
+                            gameStateModel.setCardsInPlay(newCardCount);
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                        );
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'City cards in play:',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                              offset: Offset(2, 3),
+                                              blurRadius: 3.0,
+                                              color:
+                                                  Color.fromRGBO(50, 50, 50, 1))
+                                        ]),
+                                  ),
+                                ),
+                                VerticalDivider(
+                                  width: 20,
+                                  thickness: 2,
+                                  color: Color.fromRGBO(255, 255, 255, 0.7),
+                                ),
+                                Text(
+                                  gameState.cardsInPlay.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 32,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+
+                /// City Cards In Deck
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  child: CustomButton(
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
+                          _startTimer();
+                          _shouldResume = true;
+                        }
+                        // open dialog
+                        DialogHelper.cityCardCount(
+                          context,
+                          cardCount: gameState.cardsInDeck,
+                          title: 'City cards\nin deck',
+                          onComplete: (int newCardCount) {
+                            Navigator.of(context).pop();
+                            gameStateModel.setCardsInDeck(newCardCount);
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                        );
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    'City cards in deck:',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        shadows: [
+                                          Shadow(
+                                              offset: Offset(2, 3),
+                                              blurRadius: 3.0,
+                                              color:
+                                                  Color.fromRGBO(50, 50, 50, 1))
+                                        ]),
+                                  ),
+                                ),
+                                VerticalDivider(
+                                  width: 20,
+                                  thickness: 2,
+                                  color: Color.fromRGBO(255, 255, 255, 0.7),
+                                ),
+                                Text(
+                                  gameState.cardsInDeck.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 32,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _landscapeLayout(GameState gameState) {
+    return Container(
+      margin: EdgeInsets.all(16),
+      child: Row(
+        children: [
+          /** LEFT COLUMN */
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.40,
+            child: Column(
+//              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Music Toggle
+                    Container(
+                      child: IconButton(
+                        icon: _musicEnabled
+                            ? Icon(Icons.volume_up)
+                            : Icon(Icons.volume_off),
+                        iconSize: 32,
+                        color: Colors.white,
+                        highlightColor: Color.fromARGB(0, 0, 0, 0),
+                        onPressed: () {
+                          SystemSound.play(SystemSoundType.click);
+                          _toggleMusic();
+                        },
+                      ),
+                    ),
+                    /** Exit Button */
+                    Container(
+                      child: IconButton(
+                        icon: Icon(Icons.close),
+                        iconSize: 32,
+                        color: Colors.white,
+                        highlightColor: Color.fromARGB(0, 0, 0, 0),
+                        onPressed: () {
+                          // pause timer if running and flag if resume is needed.
+                          bool _shouldResume = false;
+                          if (_timer != null && _timer.isActive) {
+                            _startTimer();
+                            _shouldResume = true;
+                          }
+                          DialogHelper.exitConfirmation(context, onConfirm: () {
+                            _saveAndExit();
+                          }, onCancel: () {
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+
+                /** Start/Pause Button */
+                Container(
+                  child: CustomButton(
+                      onPress: () {
+                        _startTimer();
+                      },
+                      color: _startBtnColor,
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 3),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 12.0),
+                          child: Text(
+                            _startBtnText,
+                            textAlign: TextAlign.center,
+                            style: CustomTextStyle.buttonTextLarge(context),
+                          ),
+                        ),
+                      )),
+                ),
+
+                /// Resolve City Button
+                Container(
+                  child: CustomButton(
+                      onPress: () {
+                        _resolveCity();
+                      },
+                      color: _resolveBtnColor,
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 12.0),
+                          child: Text(
+                            'RESOLVE CITY',
+                            textAlign: TextAlign.center,
+                            style: CustomTextStyle.buttonTextLarge(context),
+                          ),
+                        ),
+                      )),
+                ),
+
+                /// City Cards In Play
+                Container(
+                  child: CustomButton(
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
+                          _startTimer();
+                          _shouldResume = true;
+                        }
+                        DialogHelper.cityCardCount(
+                          context,
+                          cardCount: gameState.cardsInPlay,
+                          title: 'City cards\nin play',
+                          onComplete: (int newCardCount) {
+                            Navigator.of(context).pop();
+                            gameStateModel.setCardsInPlay(newCardCount);
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                        );
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'City cards in play:',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                ),
+                                VerticalDivider(
+                                  width: 20,
+                                  thickness: 2,
+                                  color: Color.fromRGBO(255, 255, 255, 0.7),
+                                ),
+                                Text(
+                                  gameState.cardsInPlay.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 32,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+
+                /// City Cards In Deck
+                Container(
+                  child: CustomButton(
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
+                          _startTimer();
+                          _shouldResume = true;
+                        }
+                        // open dialog
+                        DialogHelper.cityCardCount(
+                          context,
+                          cardCount: gameState.cardsInDeck,
+                          title: 'City cards\nin deck',
+                          onComplete: (int newCardCount) {
+                            Navigator.of(context).pop();
+                            gameStateModel.setCardsInDeck(newCardCount);
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                          onCancel: () {
+                            Navigator.of(context).pop();
+                            if (_shouldResume) {
+                              _startTimer();
+                            }
+                          },
+                        );
+                      },
+                      child: Center(
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 5),
+                          padding: const EdgeInsets.all(8.0),
+                          child: IntrinsicHeight(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'City cards in deck:',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                ),
+                                VerticalDivider(
+                                  width: 20,
+                                  thickness: 2,
+                                  color: Color.fromRGBO(255, 255, 255, 0.7),
+                                ),
+                                Text(
+                                  gameState.cardsInDeck.toString(),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 32,
+                                      shadows: [
+                                        Shadow(
+                                            offset: Offset(2, 3),
+                                            blurRadius: 3.0,
+                                            color:
+                                                Color.fromRGBO(50, 50, 50, 1))
+                                      ]),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      )),
+                ),
+              ],
+            ),
+          ),
+          VerticalDivider(
+            width: 40,
+            thickness: 2,
+            color: Colors.white.withOpacity(0.5),
+            indent: 10,
+            endIndent: 10,
+          ),
+          /** RIGHT COLUMN */
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                /** Time Display */
+                Text(
+                  _timeDisplay,
+                  style: TextStyle(
+                    fontSize: 48,
+                    color: Colors.yellow,
+                    fontWeight: FontWeight.w300,
+                    fontFamily: 'Operator Mono',
+                  ),
+                ),
+                /** Sand Timer */
+                Expanded(
+                  child: FlareActor(
+                    'assets/animations/sandTimer.flr',
+                    controller: _timerController,
+                  ),
+                ),
+
+                /** Time Tokens */
+                Container(
+                  height: 60,
+                  child: FlareActor(
+                    'assets/animations/timeTokens.flr',
+                    controller: _tokenController,
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
