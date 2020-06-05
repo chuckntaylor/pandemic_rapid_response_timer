@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-05T13:44:32.725695", 
+  "@@last_modified": "2020-06-05T14:54:36.905283", 
   "title": "Pandemic Rapid Response Minuteur", 
   "@title": {
     "description": "The title of the application", 
@@ -53,74 +53,74 @@
     "placeholders": {}, 
     "type": "text", 
     "description": "Button text to resume a game if one is already in progress."
-  },
-  "cardsInDeck": "Cartes empil\u00e9es sur le jeu",
+  }, 
+  "cardsInDeck": "Cartes empil\u00e9es sur le jeu", 
   "@cardsInDeck": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for button which indicates how many city cards are still in the deck"
-  },
-  "resolveCity": "ravitailler la ville",
+  }, 
+  "resolveCity": "ravitailler la ville", 
   "@resolveCity": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for the button to resolve a city card"
-  },
-  "cardsInPlay": "Cartes en jeu",
+  }, 
+  "cardsInPlay": "Cartes en jeu", 
   "@cardsInPlay": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for button which indicates how many city cards are currently in play"
-  },
-  "musicToggleIconSemantic": "bouton musique",
+  }, 
+  "musicToggleIconSemantic": "bouton musique", 
   "@musicToggleIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the music toggle icon"
-  },
-  "pause": "pause",
+  }, 
+  "pause": "pause", 
   "@pause": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label to 'pause' the timer"
-  },
-  "exitIconSemantic": "bouton quitter",
+  }, 
+  "exitIconSemantic": "bouton quitter", 
   "@exitIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the exit icon"
-  },
-  "start": "d\u00e9marrer",
+  }, 
+  "start": "d\u00e9marrer", 
   "@start": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label to 'start' the timer"
-  },
-  "exitMessage": "\u00cates-vous certain de vouloir quitter?",
+  }, 
+  "exitMessage": "\u00cates-vous certain de vouloir quitter?", 
   "@exitMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user asking them to confirm that they wish to exit the game"
-  },
-  "victoryMessage": "F\u00e9licitations! Votre \u00e9quipe a gagn\u00e9 la partie!",
+  }, 
+  "victoryMessage": "F\u00e9licitations! Votre \u00e9quipe a gagn\u00e9 la partie!", 
   "@victoryMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user when they win the game"
-  },
-  "timerAlertIconSemantic": "Time up alert icon",
+  }, 
+  "timerAlertIconSemantic": "Time up alert icon", 
   "@timerAlertIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the alert image when the timer runs out."
-  },
-  "cancel": "annuler",
+  }, 
+  "cancel": "annuler", 
   "@cancel": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'cancel'"
-  },
-  "gameOverTitle": "Mission \u00e9chou\u00e9e!",
+  }, 
+  "gameOverTitle": "Mission \u00e9chou\u00e9e!", 
   "@gameOverTitle": {
     "placeholders": {}, 
     "type": "text", 
@@ -131,59 +131,59 @@
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for the dialog 'resume' button"
-  },
-  "victoryIconSemantic": "\u00c9toiles de victoire",
+  }, 
+  "victoryIconSemantic": "\u00c9toiles de victoire", 
   "@victoryIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the stars image that shows when the game is won."
-  },
-  "done": "termin\u00e9",
+  }, 
+  "done": "termin\u00e9", 
   "@done": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'done'"
-  },
-  "exitTitle": "Quitter?",
+  }, 
+  "exitTitle": "Quitter?", 
   "@exitTitle": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the exit confirmation dialog"
-  },
-  "gameOverMessage": "Votre \u00e9quipe est \u00e0 court de temps.",
+  }, 
+  "gameOverMessage": "Votre \u00e9quipe est \u00e0 court de temps.", 
   "@gameOverMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user when they lose the game"
-  },
-  "timeUpMessage": "Prenez une carte de ville et placer la au jeu. Quand vous \u00eates pr\u00eats, appuyer sur REPRENDRE.",
+  }, 
+  "timeUpMessage": "Prenez une carte de ville et placer la au jeu. Quand vous \u00eates pr\u00eats, appuyer sur REPRENDRE.", 
   "@timeUpMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user in the time up alert dialog."
-  },
-  "victoryTitle": "Victoire!",
+  }, 
+  "victoryTitle": "Victoire!", 
   "@victoryTitle": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the game won 'victory' dialog"
-  },
-  "exit": "quitter",
+  }, 
+  "exit": "quitter", 
   "@exit": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'exit'"
-  },
-  "gameOverIconSemantic": "Jeu termin\u00e9",
+  }, 
+  "gameOverIconSemantic": "Jeu termin\u00e9", 
   "@gameOverIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the skull and cross-bones game over image."
-  },
-  "timeUpTitle": "Time up!",
+  }, 
+  "timeUpTitle": "Time up!", 
   "@timeUpTitle": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the time up alert dialog"
-  },
+  }
 }

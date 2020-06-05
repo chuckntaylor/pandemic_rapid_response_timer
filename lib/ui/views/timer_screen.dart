@@ -77,9 +77,6 @@ class _TimerScreenState extends State<TimerScreen>
     _counter = gameStateModel.currentTime;
     _timeDisplay =
       '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
-    // load alarm sound into player
-    _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'),
-        autoStart: false);
     // load SharedPreferences
     _loadMusicPrefs();
     // Keep the device awake on this screen
@@ -170,15 +167,18 @@ class _TimerScreenState extends State<TimerScreen>
       });
       // run the timer every 0.1 seconds
       _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
-
-        setState(() {
-          if (_counter > 0) {
+          if (_counter > 0) { // if timer has not finished
             // continue countdown
-            _counter--;
-            _timeDisplay =
-              '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
+            setState(() {
+              _counter--;
+              _timeDisplay =
+              '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10)
+                  .toString()
+                  .padLeft(2, '0')}';
+            });
           } else {
             // countdown complete
+            // stop the timer, reset the animation, reset the music to the beginning and pause it
             _timer.cancel();
             _timerController.reset();
             _musicAudioPlayer.seek(Duration(seconds: 0));
@@ -186,12 +186,18 @@ class _TimerScreenState extends State<TimerScreen>
             // check if there is still any time tokens remaining
             if (gameStateModel.timeTokensRemaining > 0) {
               // play alarm sound
-              _assetsSFXAudioPlayer.play();
-              // show timerReset Dialog
-              DialogHelper.timerReset(context, callBack: () {
+              _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'));
+              // show timerReset Dialog if there are still cards in the city deck
+              if (gameStateModel.cardsInDeck > 0) {
+                DialogHelper.timerReset(context, callBack: () {
+                  _removeToken();
+                });
+              } else {
+                // if no cards are in the deck, just continue with resetting the timer.
                 _removeToken();
-              });
+              }
             } else {
+              // GAME OVER!
               // play a game end sound
               _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
               // show gameOver Dialog
@@ -201,7 +207,6 @@ class _TimerScreenState extends State<TimerScreen>
             }
           }
         });
-      });
     }
   }
 
@@ -229,6 +234,7 @@ class _TimerScreenState extends State<TimerScreen>
 
   void _resolveCity() {
     if (_tokenController.idle == true) {
+      _assetsSFXAudioPlayer.open(Audio('assets/audio/cityResolved.mp3'));
       gameStateModel.resolveCity();
       _tokenController.updateTokenCount(gameStateModel.timeTokensRemaining);
       // check if victory conditions are met

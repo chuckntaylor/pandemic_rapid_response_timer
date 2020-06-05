@@ -66,7 +66,7 @@ class TimerResetDialog extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(20),
-              child: Text('', textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).timeUpMessage, textAlign: TextAlign.center,)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
