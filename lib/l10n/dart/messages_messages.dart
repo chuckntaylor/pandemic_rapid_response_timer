@@ -21,14 +21,36 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "cancel" : MessageLookupByLibrary.simpleMessage("cancel"),
+    "cardsInDeck" : MessageLookupByLibrary.simpleMessage("City cards in deck"),
+    "cardsInPlay" : MessageLookupByLibrary.simpleMessage("City cards in play"),
+    "done" : MessageLookupByLibrary.simpleMessage("done"),
     "easy" : MessageLookupByLibrary.simpleMessage("Easy"),
+    "exit" : MessageLookupByLibrary.simpleMessage("exit"),
+    "exitIconSemantic" : MessageLookupByLibrary.simpleMessage("exit button"),
+    "exitMessage" : MessageLookupByLibrary.simpleMessage("Are you sure you want to exit?"),
+    "exitTitle" : MessageLookupByLibrary.simpleMessage("Exit?"),
+    "gameOverIconSemantic" : MessageLookupByLibrary.simpleMessage("Game over"),
+    "gameOverMessage" : MessageLookupByLibrary.simpleMessage("Your team is out of time."),
+    "gameOverTitle" : MessageLookupByLibrary.simpleMessage("Mission failed!"),
     "heroic" : MessageLookupByLibrary.simpleMessage("Heroic"),
+    "musicToggleIconSemantic" : MessageLookupByLibrary.simpleMessage("music toggle button"),
     "normal" : MessageLookupByLibrary.simpleMessage("Normal"),
     "numCityInDeck" : MessageLookupByLibrary.simpleMessage("City cards in deck"),
     "numCityPlaced" : MessageLookupByLibrary.simpleMessage("City cards placed"),
+    "pause" : MessageLookupByLibrary.simpleMessage("pause"),
+    "resolveCity" : MessageLookupByLibrary.simpleMessage("resolve city"),
+    "resume" : MessageLookupByLibrary.simpleMessage("resume"),
     "resumeGame" : MessageLookupByLibrary.simpleMessage("Resume Game"),
     "semanticMissionIcon" : MessageLookupByLibrary.simpleMessage("mission icon"),
+    "start" : MessageLookupByLibrary.simpleMessage("start"),
+    "timeUpMessage" : MessageLookupByLibrary.simpleMessage("Draw a new card from the city deck. When you are ready, press RESUME."),
+    "timeUpTitle" : MessageLookupByLibrary.simpleMessage("Time up!"),
+    "timerAlertIconSemantic" : MessageLookupByLibrary.simpleMessage("Time up alert icon"),
     "title" : MessageLookupByLibrary.simpleMessage("Pandemic Rapid Response Timer"),
-    "veteran" : MessageLookupByLibrary.simpleMessage("Veteran")
+    "veteran" : MessageLookupByLibrary.simpleMessage("Veteran"),
+    "victoryIconSemantic" : MessageLookupByLibrary.simpleMessage("Victory stars"),
+    "victoryMessage" : MessageLookupByLibrary.simpleMessage("Congratulations! Your team has won the game!"),
+    "victoryTitle" : MessageLookupByLibrary.simpleMessage("Victory!")
   };
 }

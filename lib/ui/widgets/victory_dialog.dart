@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 
 class VictoryDialog extends StatelessWidget {
@@ -48,11 +49,12 @@ class VictoryDialog extends StatelessWidget {
                           SvgPicture.asset(
                             'assets/images/threeStars.svg',
                             height: 100,
+                            semanticsLabel: Strings.of(context).victoryIconSemantic,
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
-                                'VICTORY!',
+                                Strings.of(context).victoryTitle.toUpperCase(),
                                 style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
                               ))
                         ],
@@ -61,7 +63,7 @@ class VictoryDialog extends StatelessWidget {
           ),
           Container(
               padding: EdgeInsets.all(20),
-              child: Text('Congratulations! Your team has won the game!', textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).victoryMessage, textAlign: TextAlign.center,)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -71,7 +73,7 @@ class VictoryDialog extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100.0),
               ),
-              child: Text('EXIT',
+              child: Text(Strings.of(context).exit.toUpperCase(),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,

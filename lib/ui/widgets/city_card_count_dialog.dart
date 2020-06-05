@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 import 'package:pandemic_timer/ui/widgets/button_painter.dart';
 import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
@@ -96,6 +97,7 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                         padding: EdgeInsets.all(4),
                         child: Icon(Icons.close,
                         color: Colors.white,
+                        semanticLabel: Strings.of(context).cancel,
                         size: 24,),
                       ),
                     ),
@@ -253,7 +255,7 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100.0),
                         ),
-                        child: Text('DONE',
+                        child: Text(Strings.of(context).done.toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,

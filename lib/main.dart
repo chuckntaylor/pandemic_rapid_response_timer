@@ -28,8 +28,8 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate
       ],
       supportedLocales: [
-        Locale('en', ''), // English
-//      Locale('fr'), // French
+        Locale('en', 'EN'), // English
+        Locale('fr', 'FR'), // French
       ],
       onGenerateTitle: (BuildContext context) => Strings.of(context).title,
       theme: ThemeData(

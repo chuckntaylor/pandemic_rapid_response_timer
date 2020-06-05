@@ -23,6 +23,7 @@ import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 import 'package:pandemic_timer/business_logic/game_state/game_state.dart';
 import 'package:pandemic_timer/ui/utils/color_shades.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -56,7 +57,7 @@ class _TimerScreenState extends State<TimerScreen>
   // toggles
   bool _musicEnabled = true;
   bool _shouldResume = false;
-  String _startBtnText = 'START';
+  String _startBtnText = '';
 
   /// Colors and Styles
   final Color _startBtnColor = Color.fromRGBO(105, 194, 76, 1.0);
@@ -67,10 +68,12 @@ class _TimerScreenState extends State<TimerScreen>
     super.initState();
     // add observer to get app lifecycle
     WidgetsBinding.instance.addObserver(this);
+    // setup the Flare animation controllers
     _timerController = TimerAnimationController(play: false);
     _timerController.time = gameStateModel.timerAnimationCurrentTime;
     _tokenController = TokenAnimationController(
         tokenCount: gameStateModel.timeTokensRemaining);
+    // get starting values from the gameStateModel
     _counter = gameStateModel.currentTime;
     _timeDisplay =
       '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
@@ -82,6 +85,16 @@ class _TimerScreenState extends State<TimerScreen>
     // Keep the device awake on this screen
     Wakelock.enable();
   }
+
+
+  @override
+  void didChangeDependencies() {
+    setState(() {
+      _startBtnText = Strings.of(context).start;
+    });
+    super.didChangeDependencies();
+  }
+
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -138,20 +151,26 @@ class _TimerScreenState extends State<TimerScreen>
   }
 
   void _toggleTimer() {
-    if (_timer != null && _timer.isActive) {
+    if (_timer != null && _timer.isActive) { // if timer is already active
+      // pause timer, animation, and music
       _timer.cancel();
       _timerController.play = false;
       _musicAudioPlayer.pause();
+      // change the button text from 'pause' to 'start'
       setState(() {
-        _startBtnText = 'START';
+        _startBtnText = Strings.of(context).start;
       });
-    } else {
+    } else { // if timer is not running
+      // play the animation, and music
       _timerController.play = true;
       _musicAudioPlayer.play();
+      // change the button text from 'start' to 'pause'
       setState(() {
-        _startBtnText = 'PAUSE';
+        _startBtnText = Strings.of(context).pause;
       });
+      // run the timer every 0.1 seconds
       _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+
         setState(() {
           if (_counter > 0) {
             // continue countdown
@@ -341,6 +360,7 @@ class _TimerScreenState extends State<TimerScreen>
                     ? Icons.volume_up
                     : Icons.volume_off,
                    color: Colors.white,
+                  semanticLabel: Strings.of(context).musicToggleIconSemantic,
                   size: 32,)
                 ),
                 /** Sand Timer */
@@ -360,6 +380,7 @@ class _TimerScreenState extends State<TimerScreen>
                   child: Icon(Icons.exit_to_app,
                     size: 32,
                     color: Colors.white,
+                    semanticLabel: Strings.of(context).exitIconSemantic,
                   ),
                     onPress: () {
                       // pause timer if running and flag if resume is needed.
@@ -415,7 +436,7 @@ class _TimerScreenState extends State<TimerScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 20.0),
                       child: Text(
-                        _startBtnText,
+                        _startBtnText.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: CustomTextStyle.buttonTextLarge(context),
                       ),
@@ -440,7 +461,7 @@ class _TimerScreenState extends State<TimerScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 20.0),
                       child: Text(
-                        'RESOLVE CITY',
+                        Strings.of(context).resolveCity.toUpperCase(),
                         textAlign: TextAlign.center,
                         style: CustomTextStyle.buttonTextLarge(context),
                       ),
@@ -469,7 +490,7 @@ class _TimerScreenState extends State<TimerScreen>
                         DialogHelper.cityCardCount(
                           context,
                           cardCount: gameState.cardsInPlay,
-                          title: 'City cards\nin play',
+                          title: Strings.of(context).cardsInPlay,
                           onComplete: (int newCardCount) {
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInPlay(newCardCount);
@@ -494,7 +515,7 @@ class _TimerScreenState extends State<TimerScreen>
                               children: [
                                 Expanded(
                                   child: Text(
-                                    'City cards in play:',
+                                    '${Strings.of(context).cardsInPlay}:',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
@@ -550,7 +571,7 @@ class _TimerScreenState extends State<TimerScreen>
                         DialogHelper.cityCardCount(
                           context,
                           cardCount: gameState.cardsInDeck,
-                          title: 'City cards\nin deck',
+                          title: Strings.of(context).cardsInDeck,
                           onComplete: (int newCardCount) {
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInDeck(newCardCount);
@@ -575,7 +596,7 @@ class _TimerScreenState extends State<TimerScreen>
                               children: [
                                 Expanded(
                                   child: Text(
-                                    'City cards in deck:',
+                                    '${Strings.of(context).cardsInDeck}:',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         color: Colors.white,
@@ -648,6 +669,7 @@ class _TimerScreenState extends State<TimerScreen>
                             ? Icons.volume_up
                             : Icons.volume_off,
                           color: Colors.white,
+                          semanticLabel: Strings.of(context).musicToggleIconSemantic,
                           size: 32,)
                     ),
                     /** Exit Button */
@@ -658,6 +680,7 @@ class _TimerScreenState extends State<TimerScreen>
                       child: Icon(Icons.exit_to_app,
                         size: 32,
                         color: Colors.white,
+                        semanticLabel: Strings.of(context).exitIconSemantic,
                       ),
                       onPress: () {
                         // pause timer if running and flag if resume is needed.
@@ -691,9 +714,9 @@ class _TimerScreenState extends State<TimerScreen>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 12.0),
                           child: Text(
-                            _startBtnText,
+                            _startBtnText.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: CustomTextStyle.buttonTextLarge(context),
+                            style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
                           ),
                         ),
                       )),
@@ -712,9 +735,9 @@ class _TimerScreenState extends State<TimerScreen>
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8.0, vertical: 12.0),
                           child: Text(
-                            'RESOLVE CITY',
+                            Strings.of(context).resolveCity.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: CustomTextStyle.buttonTextLarge(context),
+                            style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
                           ),
                         ),
                       )),
@@ -733,7 +756,7 @@ class _TimerScreenState extends State<TimerScreen>
                         DialogHelper.cityCardCount(
                           context,
                           cardCount: gameState.cardsInPlay,
-                          title: 'City cards\nin play',
+                          title: Strings.of(context).cardsInPlay,
                           onComplete: (int newCardCount) {
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInPlay(newCardCount);
@@ -758,7 +781,7 @@ class _TimerScreenState extends State<TimerScreen>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'City cards in play:',
+                                  '${Strings.of(context).cardsInPlay}:',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,
@@ -812,7 +835,7 @@ class _TimerScreenState extends State<TimerScreen>
                         DialogHelper.cityCardCount(
                           context,
                           cardCount: gameState.cardsInDeck,
-                          title: 'City cards\nin deck',
+                          title: Strings.of(context).cardsInDeck,
                           onComplete: (int newCardCount) {
                             Navigator.of(context).pop();
                             gameStateModel.setCardsInDeck(newCardCount);
@@ -837,7 +860,7 @@ class _TimerScreenState extends State<TimerScreen>
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'City cards in deck:',
+                                  '${Strings.of(context).cardsInDeck}:',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       color: Colors.white,

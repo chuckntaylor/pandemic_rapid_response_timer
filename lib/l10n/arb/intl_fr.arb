@@ -1,12 +1,12 @@
 {
-  "@@last_modified": "2020-06-04T16:21:53.525109", 
-  "title": "Pandemic Rapid Response Timer", 
+  "@@last_modified": "2020-06-05T13:44:32.725695", 
+  "title": "Pandemic Rapid Response Minuteur", 
   "@title": {
     "description": "The title of the application", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "easy": "Easy", 
+  "easy": "Facile", 
   "@easy": {
     "description": "The label for the easy difficulty option", 
     "type": "text", 
@@ -18,40 +18,172 @@
     "type": "text", 
     "placeholders": {}
   }, 
-  "veteran": "Veteran", 
+  "veteran": "V\u00e9t\u00e9ran", 
   "@veteran": {
     "description": "The label for the veteran difficulty option", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "heroic": "Heroic", 
+  "heroic": "H\u00e9ro\u00efque", 
   "@heroic": {
     "description": "The label for the heroic difficulty option", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "numCityPlaced": "City cards placed", 
+  "numCityPlaced": "Cartes en jeu au d\u00e9part", 
   "@numCityPlaced": {
     "description": "Label for how many city cards are placed at the start of the game", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "numCityInDeck": "City cards in deck", 
+  "numCityInDeck": "Cartes empil\u00e9es sur le jeu", 
   "@numCityInDeck": {
     "description": "Label for how many city cards are in the city deck at the start of the game", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "semanticMissionIcon": "mission icon", 
+  "semanticMissionIcon": "ic\u00f4ne pour mission", 
   "@semanticMissionIcon": {
     "description": "Used in the semantic label for the difficulty icons", 
     "type": "text", 
     "placeholders": {}
   }, 
-  "resumeGame": "Resume Game", 
+  "resumeGame": "Reprendre le Jeu", 
   "@resumeGame": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button text to resume a game if one is already in progress."
-  }
+  },
+  "cardsInDeck": "Cartes empil\u00e9es sur le jeu",
+  "@cardsInDeck": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Label for button which indicates how many city cards are still in the deck"
+  },
+  "resolveCity": "ravitailler la ville",
+  "@resolveCity": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Label for the button to resolve a city card"
+  },
+  "cardsInPlay": "Cartes en jeu",
+  "@cardsInPlay": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Label for button which indicates how many city cards are currently in play"
+  },
+  "musicToggleIconSemantic": "bouton musique",
+  "@musicToggleIconSemantic": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Semantic label for the music toggle icon"
+  },
+  "pause": "pause",
+  "@pause": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Button label to 'pause' the timer"
+  },
+  "exitIconSemantic": "bouton quitter",
+  "@exitIconSemantic": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Semantic label for the exit icon"
+  },
+  "start": "d\u00e9marrer",
+  "@start": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Button label to 'start' the timer"
+  },
+  "exitMessage": "\u00cates-vous certain de vouloir quitter?",
+  "@exitMessage": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Message displayed to the user asking them to confirm that they wish to exit the game"
+  },
+  "victoryMessage": "F\u00e9licitations! Votre \u00e9quipe a gagn\u00e9 la partie!",
+  "@victoryMessage": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Message displayed to the user when they win the game"
+  },
+  "timerAlertIconSemantic": "Time up alert icon",
+  "@timerAlertIconSemantic": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Semantic label for the alert image when the timer runs out."
+  },
+  "cancel": "annuler",
+  "@cancel": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Button label for 'cancel'"
+  },
+  "gameOverTitle": "Mission \u00e9chou\u00e9e!",
+  "@gameOverTitle": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Title for the game over dialog"
+  }, 
+  "resume": "reprendre", 
+  "@resume": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Label for the dialog 'resume' button"
+  },
+  "victoryIconSemantic": "\u00c9toiles de victoire",
+  "@victoryIconSemantic": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Semantic label for the stars image that shows when the game is won."
+  },
+  "done": "termin\u00e9",
+  "@done": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Button label for 'done'"
+  },
+  "exitTitle": "Quitter?",
+  "@exitTitle": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Title for the exit confirmation dialog"
+  },
+  "gameOverMessage": "Votre \u00e9quipe est \u00e0 court de temps.",
+  "@gameOverMessage": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Message displayed to the user when they lose the game"
+  },
+  "timeUpMessage": "Prenez une carte de ville et placer la au jeu. Quand vous \u00eates pr\u00eats, appuyer sur REPRENDRE.",
+  "@timeUpMessage": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Message displayed to the user in the time up alert dialog."
+  },
+  "victoryTitle": "Victoire!",
+  "@victoryTitle": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Title for the game won 'victory' dialog"
+  },
+  "exit": "quitter",
+  "@exit": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Button label for 'exit'"
+  },
+  "gameOverIconSemantic": "Jeu termin\u00e9",
+  "@gameOverIconSemantic": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Semantic label for the skull and cross-bones game over image."
+  },
+  "timeUpTitle": "Time up!",
+  "@timeUpTitle": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "Title for the time up alert dialog"
+  },
 }

@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 
 class TimerResetDialog extends StatelessWidget {
 
@@ -46,12 +47,13 @@ class TimerResetDialog extends StatelessWidget {
                         children: [
                           SvgPicture.asset(
                             'assets/images/alertIcon.svg',
+                            semanticsLabel: Strings.of(context).timerAlertIconSemantic,
                             height: 100,
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
-                                'TIME UP!',
+                                Strings.of(context).timeUpTitle.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -64,7 +66,7 @@ class TimerResetDialog extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(20),
-              child: Text('Draw a new card from the city deck. When you are ready, press RESUME.', textAlign: TextAlign.center,)
+              child: Text('', textAlign: TextAlign.center,)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -74,7 +76,7 @@ class TimerResetDialog extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100.0),
               ),
-              child: Text('RESUME',
+              child: Text(Strings.of(context).resume.toUpperCase(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                     fontSize: 18,

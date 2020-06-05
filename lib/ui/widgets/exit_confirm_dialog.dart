@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 
 class ExitConfirmDialog extends StatelessWidget {
@@ -61,12 +62,13 @@ class ExitConfirmDialog extends StatelessWidget {
                             child: SvgPicture.asset(
                               'assets/images/exit.svg',
                               height: 100,
+                              semanticsLabel: Strings.of(context).exitIconSemantic,
                             ),
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
-                                'EXIT?',
+                                Strings.of(context).exitTitle,
                                 style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
                               ))
                         ],
@@ -75,7 +77,7 @@ class ExitConfirmDialog extends StatelessWidget {
           ),
           Container(
               padding: EdgeInsets.all(20),
-              child: Text('Are you sure you want to exit?', textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).exitMessage, textAlign: TextAlign.center,)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -88,7 +90,7 @@ class ExitConfirmDialog extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0),
                   ),
-                  child: Text('EXIT',
+                  child: Text(Strings.of(context).exit.toUpperCase(),
                     style: CustomTextStyle.dialogButtonLabel(),
                   ),
                   onPressed: () {
@@ -104,7 +106,7 @@ class ExitConfirmDialog extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(100.0),
                   ),
-                  child: Text('CANCEL',
+                  child: Text(Strings.of(context).cancel.toUpperCase(),
                     style: CustomTextStyle.dialogButtonLabel(),
                   ),
                   onPressed: () {

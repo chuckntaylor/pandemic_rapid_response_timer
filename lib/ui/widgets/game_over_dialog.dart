@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pandemic_timer/localizations/localizations_util.dart';
 
 class GameOverDialog extends StatelessWidget {
 
@@ -47,11 +48,12 @@ class GameOverDialog extends StatelessWidget {
                           SvgPicture.asset(
                             'assets/images/skull.svg',
                             height: 100,
+                            semanticsLabel: Strings.of(context).gameOverIconSemantic,
                           ),
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
-                                'MISSION FAILED!',
+                                Strings.of(context).gameOverTitle.toUpperCase(),
                                 style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
@@ -64,7 +66,7 @@ class GameOverDialog extends StatelessWidget {
           ),
           Container(
               padding: EdgeInsets.all(20),
-              child: Text('Your team is out of time.', textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).gameOverMessage, textAlign: TextAlign.center,)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -74,7 +76,7 @@ class GameOverDialog extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(100.0),
               ),
-              child: Text('EXIT',
+              child: Text(Strings.of(context).exit.toUpperCase(),
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
