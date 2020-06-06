@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-05T14:54:36.905283", 
+  "@@last_modified": "2020-06-05T22:21:35.535347", 
   "title": "Pandemic Rapid Response Minuteur", 
   "@title": {
     "description": "The title of the application", 
@@ -36,7 +36,7 @@
     "type": "text", 
     "placeholders": {}
   }, 
-  "numCityInDeck": "Cartes empil\u00e9es sur le jeu", 
+  "numCityInDeck": "Cartes empil\u00e9es", 
   "@numCityInDeck": {
     "description": "Label for how many city cards are in the city deck at the start of the game", 
     "type": "text", 
@@ -54,13 +54,13 @@
     "type": "text", 
     "description": "Button text to resume a game if one is already in progress."
   }, 
-  "cardsInDeck": "Cartes empil\u00e9es sur le jeu", 
+  "cardsInDeck": "Cartes empil\u00e9es", 
   "@cardsInDeck": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for button which indicates how many city cards are still in the deck"
   }, 
-  "resolveCity": "ravitailler la ville", 
+  "resolveCity": "ville ravitaill\u00e9e", 
   "@resolveCity": {
     "placeholders": {}, 
     "type": "text", 
@@ -156,7 +156,7 @@
     "type": "text", 
     "description": "Message displayed to the user when they lose the game"
   }, 
-  "timeUpMessage": "Prenez une carte de ville et placer la au jeu. Quand vous \u00eates pr\u00eats, appuyer sur REPRENDRE.", 
+  "timeUpMessage": "Prenez une carte de ville et ajouter la au jeu. Quand vous \u00eates pr\u00eats, appuyer sur REPRENDRE.", 
   "@timeUpMessage": {
     "placeholders": {}, 
     "type": "text", 
@@ -180,7 +180,7 @@
     "type": "text", 
     "description": "Semantic label for the skull and cross-bones game over image."
   }, 
-  "timeUpTitle": "Time up!", 
+  "timeUpTitle": "Temps \u00e9coul\u00e9!", 
   "@timeUpTitle": {
     "placeholders": {}, 
     "type": "text", 

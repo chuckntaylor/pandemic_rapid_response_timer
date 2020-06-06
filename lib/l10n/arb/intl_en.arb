@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-05T14:54:36.905283", 
+  "@@last_modified": "2020-06-05T22:21:35.535347", 
   "title": "Pandemic Rapid Response Timer", 
   "@title": {
     "description": "The title of the application", 
@@ -53,74 +53,74 @@
     "placeholders": {}, 
     "type": "text", 
     "description": "Button text to resume a game if one is already in progress."
-  },
-  "cardsInDeck": "City cards in deck",
+  }, 
+  "cardsInDeck": "City cards in deck", 
   "@cardsInDeck": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for button which indicates how many city cards are still in the deck"
-  },
-  "resolveCity": "resolve city",
+  }, 
+  "resolveCity": "resolve city", 
   "@resolveCity": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for the button to resolve a city card"
-  },
-  "cardsInPlay": "City cards in play",
+  }, 
+  "cardsInPlay": "City cards in play", 
   "@cardsInPlay": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for button which indicates how many city cards are currently in play"
-  },
-  "musicToggleIconSemantic": "music toggle button",
+  }, 
+  "musicToggleIconSemantic": "music toggle button", 
   "@musicToggleIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the music toggle icon"
-  },
-  "pause": "pause",
+  }, 
+  "pause": "pause", 
   "@pause": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label to 'pause' the timer"
-  },
-  "exitIconSemantic": "exit button",
+  }, 
+  "exitIconSemantic": "exit button", 
   "@exitIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the exit icon"
-  },
-  "start": "start",
+  }, 
+  "start": "start", 
   "@start": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label to 'start' the timer"
-  },
-  "exitMessage": "Are you sure you want to exit?",
+  }, 
+  "exitMessage": "Are you sure you want to exit?", 
   "@exitMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user asking them to confirm that they wish to exit the game"
-  },
-  "victoryMessage": "Congratulations! Your team has won the game!",
+  }, 
+  "victoryMessage": "Congratulations! Your team has won the game!", 
   "@victoryMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user when they win the game"
-  },
-  "timerAlertIconSemantic": "Time up alert icon",
+  }, 
+  "timerAlertIconSemantic": "Time up alert icon", 
   "@timerAlertIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the alert image when the timer runs out."
-  },
-  "cancel": "cancel",
+  }, 
+  "cancel": "cancel", 
   "@cancel": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'cancel'"
-  },
-  "gameOverTitle": "Mission failed!",
+  }, 
+  "gameOverTitle": "Mission failed!", 
   "@gameOverTitle": {
     "placeholders": {}, 
     "type": "text", 
@@ -131,57 +131,56 @@
     "placeholders": {}, 
     "type": "text", 
     "description": "Label for the dialog 'resume' button"
-  },
-  "victoryIconSemantic": "Victory stars",
+  }, 
+  "victoryIconSemantic": "Victory stars", 
   "@victoryIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the stars image that shows when the game is won."
-  },
-  "done": "done",
+  }, 
+  "done": "done", 
   "@done": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'done'"
-  },
-  "exitTitle": "Exit?",
+  }, 
+  "exitTitle": "Exit?", 
   "@exitTitle": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the exit confirmation dialog"
-  },
-  "gameOverMessage": "Your team is out of time.",
+  }, 
+  "gameOverMessage": "Your team is out of time.", 
   "@gameOverMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user when they lose the game"
-  },
-  "timeUpMessage": "Draw a new card from the city deck. When you are ready, press RESUME.",
+  }, 
+  "timeUpMessage": "Draw a new card from the city deck. When you are ready, press RESUME.", 
   "@timeUpMessage": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Message displayed to the user in the time up alert dialog."
-  },
-  "victoryTitle": "Victory!",
+  }, 
+  "victoryTitle": "Victory!", 
   "@victoryTitle": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the game won 'victory' dialog"
-  },
-  "exit": "exit",
+  }, 
+  "exit": "exit", 
   "@exit": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Button label for 'exit'"
   }, 
-
-  "gameOverIconSemantic": "Game over",
+  "gameOverIconSemantic": "Game over", 
   "@gameOverIconSemantic": {
     "placeholders": {}, 
     "type": "text", 
     "description": "Semantic label for the skull and cross-bones game over image."
-  },
-  "timeUpTitle": "Time up!",
+  }, 
+  "timeUpTitle": "Time up!", 
   "@timeUpTitle": {
     "placeholders": {}, 
     "type": "text", 

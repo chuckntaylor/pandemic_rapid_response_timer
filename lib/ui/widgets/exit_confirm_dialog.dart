@@ -68,7 +68,7 @@ class ExitConfirmDialog extends StatelessWidget {
                           Container(
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
-                                Strings.of(context).exitTitle,
+                                Strings.of(context).exitTitle.toUpperCase(),
                                 style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
                               ))
                         ],
