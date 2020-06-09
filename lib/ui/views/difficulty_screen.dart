@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
 import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
+import 'package:pandemic_timer/ui/views/about_screen.dart';
 import 'package:pandemic_timer/ui/views/timer_screen.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
+import 'package:pandemic_timer/ui/widgets/circle_button.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
 import 'package:pandemic_timer/ui/widgets/difficulty_option_button.dart';
 import 'package:pandemic_timer/business_logic/models/difficulty.dart';
@@ -59,171 +61,206 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   }
 
   Widget _portraitLayout() {
-    return Center(
-        child: IntrinsicWidth(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (gameState.savedGame)
-                CustomButton(
-                  onPress: () {
-                    _navigateToTimer(context, difficulty: Difficulty.RESUME);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.refresh, color: Colors.white, size: 30,),
-                            SizedBox(width: 8,),
-                            Text(Strings.of(context).resumeGame.toUpperCase(),
-                              style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
-                            ),
-                          ],
-                        )
+    return Stack(
+      children: [
+        Positioned(
+          right: 8,
+          top: 8,
+          child: CircleButton(
+            color: Colors.deepPurple,
+            borderWidth: 6.0,
+            size: 40,
+            onPress: () {
+              _navigateToAbout(context);
+            },
+            child: Icon(Icons.info_outline,
+            color: Colors.white,),
+          ),
+        ),
+        Center(
+          child: IntrinsicWidth(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (gameState.savedGame)
+                  CustomButton(
+                    onPress: () {
+                      _navigateToTimer(context, difficulty: Difficulty.RESUME);
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.refresh, color: Colors.white, size: 30,),
+                              SizedBox(width: 8,),
+                              Text(Strings.of(context).resumeGame.toUpperCase(),
+                                style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
+                              ),
+                            ],
+                          )
+                      ),
                     ),
                   ),
+                if (gameState.savedGame)
+                  SizedBox(height: _buttonSpacing,),
+                DifficultyOptionButton(
+                  title: Strings.of(context).easy,
+                  iconName: 'easyPlane',
+                  numCitiesPlaced: 2,
+                  numCitiesInDeck: 3,
+                  onPressed: () {
+                    _navigateToTimer(context, difficulty: Difficulty.EASY);
+                  },
+                  color: _easyColor,
                 ),
-              if (gameState.savedGame)
                 SizedBox(height: _buttonSpacing,),
-              DifficultyOptionButton(
-                title: Strings.of(context).easy,
-                iconName: 'easyPlane',
-                numCitiesPlaced: 2,
-                numCitiesInDeck: 3,
-                onPressed: () {
-                  _navigateToTimer(context, difficulty: Difficulty.EASY);
-                },
-                color: _easyColor,
-              ),
-              SizedBox(height: _buttonSpacing,),
-              DifficultyOptionButton(
-                title: Strings.of(context).normal,
-                iconName: 'normalPlane',
-                numCitiesPlaced: 2,
-                numCitiesInDeck: 5,
-                onPressed: () {
-                  _navigateToTimer(context, difficulty: Difficulty.NORMAL);
-                },
-                color: _normalColor,
-              ),
-              SizedBox(height: _buttonSpacing,),
-              DifficultyOptionButton(
-                title: Strings.of(context).veteran,
-                iconName: 'veteranPlane',
-                numCitiesPlaced: 3,
-                numCitiesInDeck: 7,
-                onPressed: () {
-                  _navigateToTimer(context, difficulty: Difficulty.VETERAN);
-                },
-                color: _veteranColor,
-              ),
-              SizedBox(height: _buttonSpacing,),
-              DifficultyOptionButton(
-                title: Strings.of(context).heroic,
-                iconName: 'heroicPlane',
-                numCitiesPlaced: 4,
-                numCitiesInDeck: 9,
-                onPressed: () {
-                  _navigateToTimer(context, difficulty: Difficulty.HEROIC);
-                },
-                color: _heroicColor,
-              )
-            ],
-          ),
-        )
+                DifficultyOptionButton(
+                  title: Strings.of(context).normal,
+                  iconName: 'normalPlane',
+                  numCitiesPlaced: 2,
+                  numCitiesInDeck: 5,
+                  onPressed: () {
+                    _navigateToTimer(context, difficulty: Difficulty.NORMAL);
+                  },
+                  color: _normalColor,
+                ),
+                SizedBox(height: _buttonSpacing,),
+                DifficultyOptionButton(
+                  title: Strings.of(context).veteran,
+                  iconName: 'veteranPlane',
+                  numCitiesPlaced: 3,
+                  numCitiesInDeck: 7,
+                  onPressed: () {
+                    _navigateToTimer(context, difficulty: Difficulty.VETERAN);
+                  },
+                  color: _veteranColor,
+                ),
+                SizedBox(height: _buttonSpacing,),
+                DifficultyOptionButton(
+                  title: Strings.of(context).heroic,
+                  iconName: 'heroicPlane',
+                  numCitiesPlaced: 4,
+                  numCitiesInDeck: 9,
+                  onPressed: () {
+                    _navigateToTimer(context, difficulty: Difficulty.HEROIC);
+                  },
+                  color: _heroicColor,
+                )
+              ],
+            ),
+          )
+      ),]
     );
   }
 
   Widget _landscapeLayout() {
-    return Center(
-        child: IntrinsicWidth(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (gameState.savedGame)
-                CustomButton(
-                  onPress: () {
-                    _navigateToTimer(context, difficulty: Difficulty.RESUME);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.all(16.0),
-                    child: Center(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.refresh, color: Colors.white, size: 30,),
-                            SizedBox(width: 8,),
-                            Text(Strings.of(context).resumeGame.toUpperCase(),
-                              style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
-                            ),
-                          ],
-                        )
-                    ),
-                  ),
-                ),
-              if (gameState.savedGame)
-                SizedBox(height: _buttonSpacing,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DifficultyOptionButton(
-                    title: Strings.of(context).easy,
-                    iconName: 'easyPlane',
-                    numCitiesPlaced: 2,
-                    numCitiesInDeck: 3,
-                    onPressed: () {
-                      _navigateToTimer(context, difficulty: Difficulty.EASY);
-                    },
-                    color: _easyColor,
-                  ),
-                  SizedBox(width: _buttonSpacing,),
-                  DifficultyOptionButton(
-                    title: Strings.of(context).normal,
-                    iconName: 'normalPlane',
-                    numCitiesPlaced: 2,
-                    numCitiesInDeck: 5,
-                    onPressed: () {
-                      _navigateToTimer(context, difficulty: Difficulty.NORMAL);
-                    },
-                    color: _normalColor,
-                  ),
-                ],
-              ),
-              SizedBox(height: _buttonSpacing,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  DifficultyOptionButton(
-                    title: Strings.of(context).veteran,
-                    iconName: 'veteranPlane',
-                    numCitiesPlaced: 3,
-                    numCitiesInDeck: 7,
-                    onPressed: () {
-                      _navigateToTimer(context, difficulty: Difficulty.VETERAN);
-                    },
-                    color: _veteranColor,
-                  ),
-                  SizedBox(width: _buttonSpacing,),
-                  DifficultyOptionButton(
-                    title: Strings.of(context).heroic,
-                    iconName: 'heroicPlane',
-                    numCitiesPlaced: 4,
-                    numCitiesInDeck: 9,
-                    onPressed: () {
-                      _navigateToTimer(context, difficulty: Difficulty.HEROIC);
-                    },
-                    color: _heroicColor,
-                  )
-                ],
-              ),
-            ],
+    return Stack(
+      children: [
+        Positioned(
+          right: 8,
+          top: 8,
+          child: CircleButton(
+            color: Colors.deepPurple,
+            borderWidth: 6.0,
+            size: 40,
+            onPress: () {
+              _navigateToAbout(context);
+            },
+            child: Icon(Icons.info_outline,
+              color: Colors.white,),
           ),
-        )
+        ),
+        Center(
+            child: IntrinsicWidth(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (gameState.savedGame)
+                    CustomButton(
+                      onPress: () {
+                        _navigateToTimer(context, difficulty: Difficulty.RESUME);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.refresh, color: Colors.white, size: 30,),
+                                SizedBox(width: 8,),
+                                Text(Strings.of(context).resumeGame.toUpperCase(),
+                                  style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 18),
+                                ),
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  if (gameState.savedGame)
+                    SizedBox(height: _buttonSpacing,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DifficultyOptionButton(
+                        title: Strings.of(context).easy,
+                        iconName: 'easyPlane',
+                        numCitiesPlaced: 2,
+                        numCitiesInDeck: 3,
+                        onPressed: () {
+                          _navigateToTimer(context, difficulty: Difficulty.EASY);
+                        },
+                        color: _easyColor,
+                      ),
+                      SizedBox(width: _buttonSpacing,),
+                      DifficultyOptionButton(
+                        title: Strings.of(context).normal,
+                        iconName: 'normalPlane',
+                        numCitiesPlaced: 2,
+                        numCitiesInDeck: 5,
+                        onPressed: () {
+                          _navigateToTimer(context, difficulty: Difficulty.NORMAL);
+                        },
+                        color: _normalColor,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: _buttonSpacing,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DifficultyOptionButton(
+                        title: Strings.of(context).veteran,
+                        iconName: 'veteranPlane',
+                        numCitiesPlaced: 3,
+                        numCitiesInDeck: 7,
+                        onPressed: () {
+                          _navigateToTimer(context, difficulty: Difficulty.VETERAN);
+                        },
+                        color: _veteranColor,
+                      ),
+                      SizedBox(width: _buttonSpacing,),
+                      DifficultyOptionButton(
+                        title: Strings.of(context).heroic,
+                        iconName: 'heroicPlane',
+                        numCitiesPlaced: 4,
+                        numCitiesInDeck: 9,
+                        onPressed: () {
+                          _navigateToTimer(context, difficulty: Difficulty.HEROIC);
+                        },
+                        color: _heroicColor,
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            )
+        ),
+      ],
     );
   }
 
@@ -239,5 +276,11 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
       });
     }
     );
+  }
+
+  void _navigateToAbout(BuildContext context) {
+    Navigator.push((context), MaterialPageRoute(
+      builder: (context) => AboutScreen()
+    ));
   }
 }

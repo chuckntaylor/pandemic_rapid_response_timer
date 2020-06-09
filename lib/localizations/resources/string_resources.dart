@@ -207,4 +207,14 @@ mixin StringResources {
     );
   }
 
+  String get aboutChuck {
+    return Intl.message(
+      "Pandemic Rapid Response Timer App developed by Chuck Taylor.\n"
+          "For more information, visit {{chucktaylor.dev}}.\n"
+          "\u00A9 Chuck Taylor 2020\n\n"
+          "Disclaimer: This application is an 'unofficial' companion app for the Pandemic Rapid Response\u2122 boardgame from Z-MAN games. This app is not affiliated or sponsored in any way by Z-MAN Games.",
+        name: 'aboutChuck',
+        desc: 'The about screen describing Chuck as the developer. Wrap the text that should be the link with double curly braces. {{}}'
+    );
+  }
 }

@@ -30,4 +30,12 @@ class CustomTextStyle {
         color: Colors.white
     );
   }
+
+  static TextStyle htmlLink() {
+    return TextStyle(
+      fontWeight: FontWeight.bold,
+      decoration: TextDecoration.underline,
+      color: Colors.amber,
+    );
+  }
 }

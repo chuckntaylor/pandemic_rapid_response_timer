@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-05T22:21:35.535347", 
+  "@@last_modified": "2020-06-09T11:23:08.464824", 
   "title": "Pandemic Rapid Response Minuteur", 
   "@title": {
     "description": "The title of the application", 
@@ -185,5 +185,11 @@
     "placeholders": {}, 
     "type": "text", 
     "description": "Title for the time up alert dialog"
+  }, 
+  "aboutChuck": "L'application Minuterie Pandemic Rapid Response fut d\u00e9velopp\u00e9 par Chuck Taylor.\n\nPour plus d'information, visitez {{chucktaylor.dev}}.\n\u00a9 Chuck Taylor 2020\n\nVeuillez noter: Cette application accompagnatrice du jeu de soci\u00e9t\u00e9 Pandemic Rapid Response \u2122 de Z-MAN games est une application non officielle. Cette application n'est ni affili\u00e9 ni commandit\u00e9 par Z-MAN Games.", 
+  "@aboutChuck": {
+    "placeholders": {}, 
+    "type": "text", 
+    "description": "The about screen describing Chuck as the developer. Wrap the text that should be the link with double curly braces. {{}}"
   }
 }

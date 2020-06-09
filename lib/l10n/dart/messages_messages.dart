@@ -21,6 +21,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "aboutChuck" : MessageLookupByLibrary.simpleMessage("Pandemic Rapid Response Timer App developed by Chuck Taylor.\nFor more information, visit {{chucktaylor.dev}}.\n© Chuck Taylor 2020\n\nDisclaimer: This application is an \'unofficial\' companion app for the Pandemic Rapid Response™ boardgame from Z-MAN games. This app is not affiliated or sponsored in any way by Z-MAN Games."),
     "cancel" : MessageLookupByLibrary.simpleMessage("cancel"),
     "cardsInDeck" : MessageLookupByLibrary.simpleMessage("City cards in deck"),
     "cardsInPlay" : MessageLookupByLibrary.simpleMessage("City cards in play"),
