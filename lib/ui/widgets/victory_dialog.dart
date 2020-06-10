@@ -55,7 +55,7 @@ class VictoryDialog extends StatelessWidget {
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
                                 Strings.of(context).victoryTitle.toUpperCase(),
-                                style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
+                                style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24),
                               ))
                         ],
                       )))
@@ -63,7 +63,7 @@ class VictoryDialog extends StatelessWidget {
           ),
           Container(
               padding: EdgeInsets.all(20),
-              child: Text(Strings.of(context).victoryMessage, textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).victoryMessage, textAlign: TextAlign.center, style: CustomTextStyle.dialogBody(context),)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -74,11 +74,7 @@ class VictoryDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100.0),
               ),
               child: Text(Strings.of(context).exit.toUpperCase(),
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.white
-                ),
+                style: CustomTextStyle.dialogButtonLabel(),
               ),
               onPressed: () {
                 callBack();

@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
+import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 
 class TimerResetDialog extends StatelessWidget {
 
@@ -54,11 +55,7 @@ class TimerResetDialog extends StatelessWidget {
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
                                 Strings.of(context).timeUpTitle.toUpperCase(),
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1,
-                                    color: Colors.white),
+                                style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24),
                               ))
                         ],
                       )))
@@ -66,7 +63,8 @@ class TimerResetDialog extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(20),
-              child: Text(Strings.of(context).timeUpMessage, textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).timeUpMessage, textAlign: TextAlign.center,
+              style: CustomTextStyle.dialogBody(context),)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),
@@ -77,11 +75,7 @@ class TimerResetDialog extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100.0),
               ),
               child: Text(Strings.of(context).resume.toUpperCase(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  color: Colors.white
-                ),
+                style: CustomTextStyle.dialogButtonLabel(),
               ),
               onPressed: () {
                 callBack();

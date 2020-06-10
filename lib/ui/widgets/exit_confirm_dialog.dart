@@ -69,7 +69,7 @@ class ExitConfirmDialog extends StatelessWidget {
                               margin: EdgeInsets.only(top: 10),
                               child: Text(
                                 Strings.of(context).exitTitle.toUpperCase(),
-                                style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
+                                style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24),
                               ))
                         ],
                       )))
@@ -77,7 +77,7 @@ class ExitConfirmDialog extends StatelessWidget {
           ),
           Container(
               padding: EdgeInsets.all(20),
-              child: Text(Strings.of(context).exitMessage, textAlign: TextAlign.center,)
+              child: Text(Strings.of(context).exitMessage, textAlign: TextAlign.center, style: CustomTextStyle.dialogBody(context),)
           ),
           Container(
             margin: EdgeInsets.only(bottom: 20),

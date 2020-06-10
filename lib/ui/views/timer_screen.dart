@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pandemic_timer/services/service_locator.dart';
 import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
-import 'package:pandemic_timer/ui/utils/dialog_helper.dart';
+import 'package:pandemic_timer/ui/utils/dialog_manager.dart';
 import 'package:pandemic_timer/ui/utils/timer_animation_controller.dart';
 import 'package:pandemic_timer/ui/utils/token_animation_controller.dart';
 import 'package:pandemic_timer/ui/widgets/custom_button.dart';
@@ -189,7 +189,7 @@ class _TimerScreenState extends State<TimerScreen>
               _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'));
               // show timerReset Dialog if there are still cards in the city deck
               if (gameStateModel.cardsInDeck > 0) {
-                DialogHelper.timerReset(context, callBack: () {
+                DialogManager.timerReset(context, callBack: () {
                   _removeToken();
                 });
               } else {
@@ -201,7 +201,7 @@ class _TimerScreenState extends State<TimerScreen>
               // play a game end sound
               _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
               // show gameOver Dialog
-              DialogHelper.gameOver(context, callBack: () {
+              DialogManager.gameOver(context, callBack: () {
                 _exit();
               });
             }
@@ -247,7 +247,7 @@ class _TimerScreenState extends State<TimerScreen>
         // play victory audio
         _assetsSFXAudioPlayer.open(Audio('assets/audio/chimesGlassy.mp3'));
         // show dialog
-        DialogHelper.gameVictory(context, callBack: () {
+        DialogManager.gameVictory(context, callBack: () {
           _exit();
         });
       }
@@ -292,7 +292,7 @@ class _TimerScreenState extends State<TimerScreen>
       _toggleTimer();
       _shouldResume = true;
     }
-    DialogHelper.exitConfirmation(context, onConfirm: () {
+    DialogManager.exitConfirmation(context, onConfirm: () {
       _saveAndExit();
     }, onCancel: () {
       if (_shouldResume) {
@@ -353,58 +353,61 @@ class _TimerScreenState extends State<TimerScreen>
             height: 10,
           ),
           Expanded(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /** Music Toggle */
-                CircleButton(
-                  borderWidth: 6.0,
-                  size: 48,
-                  color: Colors.blue.lighter(30),
-                  onPress: () => _toggleMusic(),
-                  child: Icon(_musicEnabled
-                    ? Icons.volume_up
-                    : Icons.volume_off,
-                   color: Colors.white,
-                  semanticLabel: Strings.of(context).musicToggleIconSemantic,
-                  size: 32,)
-                ),
-                /** Sand Timer */
-                Expanded(
-                  child: Container(
-                    child: FlareActor(
-                      'assets/animations/sandTimer.flr',
-                      controller: _timerController,
+            child: Container(
+              margin: EdgeInsets.only(left: 8, right: 8),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /** Music Toggle */
+                  CircleButton(
+                    borderWidth: 6.0,
+                    size: 48,
+                    color: Colors.blue.lighter(30),
+                    onPress: () => _toggleMusic(),
+                    child: Icon(_musicEnabled
+                      ? Icons.volume_up
+                      : Icons.volume_off,
+                     color: Colors.white,
+                    semanticLabel: Strings.of(context).musicToggleIconSemantic,
+                    size: 32,)
+                  ),
+                  /** Sand Timer */
+                  Expanded(
+                    child: Container(
+                      child: FlareActor(
+                        'assets/animations/sandTimer.flr',
+                        controller: _timerController,
+                      ),
                     ),
                   ),
-                ),
-                /** Exit Button */
-                CircleButton(
-                  borderWidth: 6.0,
-                  size: 48,
-                  color: Colors.redAccent,
-                  child: Icon(Icons.exit_to_app,
-                    size: 32,
-                    color: Colors.white,
-                    semanticLabel: Strings.of(context).exitIconSemantic,
-                  ),
-                    onPress: () {
-                      // pause timer if running and flag if resume is needed.
-                      bool _shouldResume = false;
-                      if (_timer != null && _timer.isActive) {
-                        _toggleTimer();
-                        _shouldResume = true;
-                      }
-                      DialogHelper.exitConfirmation(context, onConfirm: () {
-                        _saveAndExit();
-                      }, onCancel: () {
-                        if (_shouldResume) {
+                  /** Exit Button */
+                  CircleButton(
+                    borderWidth: 6.0,
+                    size: 48,
+                    color: Colors.redAccent,
+                    child: Icon(Icons.exit_to_app,
+                      size: 32,
+                      color: Colors.white,
+                      semanticLabel: Strings.of(context).exitIconSemantic,
+                    ),
+                      onPress: () {
+                        // pause timer if running and flag if resume is needed.
+                        bool _shouldResume = false;
+                        if (_timer != null && _timer.isActive) {
                           _toggleTimer();
+                          _shouldResume = true;
                         }
-                      });
-                    },
-                  ),
-              ],
+                        DialogManager.exitConfirmation(context, onConfirm: () {
+                          _saveAndExit();
+                        }, onCancel: () {
+                          if (_shouldResume) {
+                            _toggleTimer();
+                          }
+                        });
+                      },
+                    ),
+                ],
+              ),
             ),
           ),
           /** Time Tokens */
@@ -418,12 +421,7 @@ class _TimerScreenState extends State<TimerScreen>
           /** Time Display */
           Text(
             _timeDisplay,
-            style: TextStyle(
-              fontSize: 64,
-              color: Colors.yellow,
-              fontWeight: FontWeight.w300,
-              fontFamily: 'Operator Mono',
-            ),
+            style: CustomTextStyle.timer(),
           ),
 
           /** Start/Pause Button */
@@ -444,7 +442,7 @@ class _TimerScreenState extends State<TimerScreen>
                       child: Text(
                         _startBtnText.toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: CustomTextStyle.buttonTextLarge(context),
+                        style: CustomTextStyle.headingWithShadow(context),
                       ),
                     ),
                   )),
@@ -469,7 +467,7 @@ class _TimerScreenState extends State<TimerScreen>
                       child: Text(
                         Strings.of(context).resolveCity.toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: CustomTextStyle.buttonTextLarge(context),
+                        style: CustomTextStyle.headingWithShadow(context),
                       ),
                     ),
                   )),
@@ -493,7 +491,7 @@ class _TimerScreenState extends State<TimerScreen>
                           _toggleTimer();
                           _shouldResume = true;
                         }
-                        DialogHelper.cityCardCount(
+                        DialogManager.cityCardCount(
                           context,
                           cardCount: gameState.cardsInPlay,
                           title: Strings.of(context).cardsInPlay,
@@ -523,17 +521,7 @@ class _TimerScreenState extends State<TimerScreen>
                                   child: Text(
                                     '${Strings.of(context).cardsInPlay}:',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                              offset: Offset(2, 3),
-                                              blurRadius: 3.0,
-                                              color:
-                                                  Color.fromRGBO(50, 50, 50, 1))
-                                        ]),
+                                    style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 18),
                                   ),
                                 ),
                                 VerticalDivider(
@@ -543,17 +531,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 ),
                                 Text(
                                   gameState.cardsInPlay.toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 32,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 32),
                                 )
                               ],
                             ),
@@ -574,7 +552,7 @@ class _TimerScreenState extends State<TimerScreen>
                           _shouldResume = true;
                         }
                         // open dialog
-                        DialogHelper.cityCardCount(
+                        DialogManager.cityCardCount(
                           context,
                           cardCount: gameState.cardsInDeck,
                           title: Strings.of(context).cardsInDeck,
@@ -604,17 +582,7 @@ class _TimerScreenState extends State<TimerScreen>
                                   child: Text(
                                     '${Strings.of(context).cardsInDeck}:',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                              offset: Offset(2, 3),
-                                              blurRadius: 3.0,
-                                              color:
-                                                  Color.fromRGBO(50, 50, 50, 1))
-                                        ]),
+                                    style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 18),
                                   ),
                                 ),
                                 VerticalDivider(
@@ -624,17 +592,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 ),
                                 Text(
                                   gameState.cardsInDeck.toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 32,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 32),
                                 )
                               ],
                             ),
@@ -695,7 +653,7 @@ class _TimerScreenState extends State<TimerScreen>
                           _toggleTimer();
                           _shouldResume = true;
                         }
-                        DialogHelper.exitConfirmation(context, onConfirm: () {
+                        DialogManager.exitConfirmation(context, onConfirm: () {
                           _saveAndExit();
                         }, onCancel: () {
                           if (_shouldResume) {
@@ -722,7 +680,7 @@ class _TimerScreenState extends State<TimerScreen>
                           child: Text(
                             _startBtnText.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
+                            style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24),
                           ),
                         ),
                       )),
@@ -743,7 +701,7 @@ class _TimerScreenState extends State<TimerScreen>
                           child: Text(
                             Strings.of(context).resolveCity.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: CustomTextStyle.buttonTextLarge(context).copyWith(fontSize: 24),
+                            style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24),
                           ),
                         ),
                       )),
@@ -759,7 +717,7 @@ class _TimerScreenState extends State<TimerScreen>
                           _toggleTimer();
                           _shouldResume = true;
                         }
-                        DialogHelper.cityCardCount(
+                        DialogManager.cityCardCount(
                           context,
                           cardCount: gameState.cardsInPlay,
                           title: Strings.of(context).cardsInPlay,
@@ -789,17 +747,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 Text(
                                   '${Strings.of(context).cardsInPlay}:',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 18),
                                 ),
                                 VerticalDivider(
                                   width: 20,
@@ -808,17 +756,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 ),
                                 Text(
                                   gameState.cardsInPlay.toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 32,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 32),
                                 )
                               ],
                             ),
@@ -838,7 +776,7 @@ class _TimerScreenState extends State<TimerScreen>
                           _shouldResume = true;
                         }
                         // open dialog
-                        DialogHelper.cityCardCount(
+                        DialogManager.cityCardCount(
                           context,
                           cardCount: gameState.cardsInDeck,
                           title: Strings.of(context).cardsInDeck,
@@ -868,17 +806,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 Text(
                                   '${Strings.of(context).cardsInDeck}:',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 18),
                                 ),
                                 VerticalDivider(
                                   width: 20,
@@ -887,17 +815,7 @@ class _TimerScreenState extends State<TimerScreen>
                                 ),
                                 Text(
                                   gameState.cardsInDeck.toString(),
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 32,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(2, 3),
-                                            blurRadius: 3.0,
-                                            color:
-                                                Color.fromRGBO(50, 50, 50, 1))
-                                      ]),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 32),
                                 )
                               ],
                             ),
@@ -923,12 +841,7 @@ class _TimerScreenState extends State<TimerScreen>
                 /** Time Display */
                 Text(
                   _timeDisplay,
-                  style: TextStyle(
-                    fontSize: 48,
-                    color: Colors.yellow,
-                    fontWeight: FontWeight.w300,
-                    fontFamily: 'Operator Mono',
-                  ),
+                  style: CustomTextStyle.timer().copyWith(fontSize: 48),
                 ),
                 /** Sand Timer */
                 Expanded(

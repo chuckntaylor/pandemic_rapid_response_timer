@@ -11,7 +11,7 @@ import 'package:pandemic_timer/ui/widgets/game_over_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/timer_reset_dialog.dart';
 import 'package:pandemic_timer/ui/widgets/victory_dialog.dart';
 
-class DialogHelper {
+class DialogManager {
   static timerReset(BuildContext context, {Function callBack}) async {
     return await showDialog(
         context: context,

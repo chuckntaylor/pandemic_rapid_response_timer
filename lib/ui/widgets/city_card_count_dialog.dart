@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
+import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 import 'package:pandemic_timer/ui/widgets/button_painter.dart';
 import 'package:pandemic_timer/ui/utils/color_shades.dart';
 
@@ -112,18 +113,9 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                       margin: EdgeInsets.symmetric(horizontal: 46),
                       child: Text('${widget.title}'.toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              offset: Offset(3, 3),
-                              blurRadius: 5
-                            )
-                          ]
-                        ),),
+                        style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 24)
+
+                        ,),
                     ),
                     SizedBox(height: 20,),
 
@@ -228,18 +220,7 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                                 child: FittedBox(
                                   fit: BoxFit.fitHeight,
                                   child: Text('$_cardCount',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                    fontSize: 60,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black.withOpacity(0.4),
-                                        offset: Offset(3,3),
-                                        blurRadius: 5
-                                      )
-                                    ]
-                                  ),),
+                                  style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 60)),
                                 ),
                               ),
                             )
@@ -256,11 +237,7 @@ class _CityCardCountDialogState extends State<CityCardCountDialog> {
                           borderRadius: BorderRadius.circular(100.0),
                         ),
                         child: Text(Strings.of(context).done.toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                              color: Colors.white
-                          ),
+                          style: CustomTextStyle.dialogButtonLabel(),
                         ),
                         onPressed: () {
                           SystemSound.play(SystemSoundType.click);

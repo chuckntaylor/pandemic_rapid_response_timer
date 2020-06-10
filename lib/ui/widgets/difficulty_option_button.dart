@@ -7,6 +7,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pandemic_timer/localizations/localizations_util.dart';
+import 'package:pandemic_timer/ui/utils/custom_text_style.dart';
 
 import 'custom_button.dart';
 
@@ -57,11 +58,8 @@ class DifficultyOptionButton extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(title.toUpperCase(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 18
-                      ),),
+                      style: CustomTextStyle.headingWithShadow(context).copyWith(fontSize: 18)
+                      ),
                       Divider(
                         height: 6,
                         thickness: 1,
@@ -71,9 +69,7 @@ class DifficultyOptionButton extends StatelessWidget {
                       SizedBox(height: 4,),
                       RichText(
                         text: TextSpan(
-                          style: TextStyle(
-                            color: Colors.white
-                          ),
+                          style: CustomTextStyle.body(context),
                           children: [
                             TextSpan( text: '${Strings.of(context).numCityPlaced}: '),
                             TextSpan( text: ' $numCitiesPlaced', style: TextStyle(fontWeight: FontWeight.bold))
@@ -82,9 +78,7 @@ class DifficultyOptionButton extends StatelessWidget {
                       ),
                       RichText(
                         text: TextSpan(
-                            style: TextStyle(
-                                color: Colors.white
-                            ),
+                            style: CustomTextStyle.body(context),
                             children: [
                               TextSpan( text: '${Strings.of(context).numCityInDeck}: '),
                               TextSpan( text: ' $numCitiesInDeck', style: TextStyle(fontWeight: FontWeight.bold))
