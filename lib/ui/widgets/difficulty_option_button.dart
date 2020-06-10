@@ -39,7 +39,7 @@ class DifficultyOptionButton extends StatelessWidget {
         color: color,
         child: IntrinsicWidth(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,7 +52,7 @@ class DifficultyOptionButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                SizedBox(width: 20,),
+                SizedBox(width: 10,),
                 IntrinsicWidth(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class DifficultyOptionButton extends StatelessWidget {
                         height: 6,
                         thickness: 1,
                         color: Colors.white.withOpacity(0.5),
-                        
+
                       ),
                       SizedBox(height: 4,),
                       RichText(
@@ -72,7 +72,7 @@ class DifficultyOptionButton extends StatelessWidget {
                           style: CustomTextStyle.body(context),
                           children: [
                             TextSpan( text: '${Strings.of(context).numCityPlaced}: '),
-                            TextSpan( text: ' $numCitiesPlaced', style: TextStyle(fontWeight: FontWeight.bold))
+                            TextSpan( text: '$numCitiesPlaced', style: TextStyle(fontWeight: FontWeight.bold))
                           ]
                         ),
                       ),
@@ -81,7 +81,7 @@ class DifficultyOptionButton extends StatelessWidget {
                             style: CustomTextStyle.body(context),
                             children: [
                               TextSpan( text: '${Strings.of(context).numCityInDeck}: '),
-                              TextSpan( text: ' $numCitiesInDeck', style: TextStyle(fontWeight: FontWeight.bold))
+                              TextSpan( text: '$numCitiesInDeck', style: TextStyle(fontWeight: FontWeight.bold))
                             ]
                         ),
                       ),

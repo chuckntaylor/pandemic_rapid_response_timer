@@ -82,7 +82,7 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 if (gameState.savedGame)
                   CustomButton(
@@ -205,6 +205,7 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
                     SizedBox(height: _buttonSpacing,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       DifficultyOptionButton(
                         title: Strings.of(context).easy,
@@ -229,9 +230,10 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: _buttonSpacing,),
+                  SizedBox(height: _buttonSpacing, width: 0,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       DifficultyOptionButton(
                         title: Strings.of(context).veteran,
