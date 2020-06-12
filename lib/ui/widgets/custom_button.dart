@@ -13,10 +13,12 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final Widget child;
   final Function onPress;
+  final bool playClickAudio;
   static const Color _defaultGrey = Color.fromRGBO(89, 89, 89, 1.0);
 
   CustomButton({
     this.color = _defaultGrey,
+    this.playClickAudio = true,
     @required this.child,
     @required this.onPress
   });
@@ -37,7 +39,9 @@ class CustomButton extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           onTap: () {
-            SystemSound.play(SystemSoundType.click);
+            if (playClickAudio) {
+              SystemSound.play(SystemSoundType.click);
+            }
             onPress();
           },
           child: child,

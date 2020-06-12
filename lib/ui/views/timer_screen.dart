@@ -455,6 +455,7 @@ class _TimerScreenState extends State<TimerScreen>
             child: SizedBox(
               width: double.infinity,
               child: CustomButton(
+                  playClickAudio: false,
                   onPress: () {
                     _resolveCity();
                   },
@@ -689,6 +690,7 @@ class _TimerScreenState extends State<TimerScreen>
                 /// Resolve City Button
                 Container(
                   child: CustomButton(
+                      playClickAudio: false,
                       onPress: () {
                         _resolveCity();
                       },
