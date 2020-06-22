@@ -17,8 +17,4 @@ Now, as the sand timer is completely silent, it is **very** easy to either not n
 * Automated unit testing
 * Shared Preferences for data persistence
 * Vector animations
-<<<<<<< HEAD
 * Custom Painter classes for ui elements
-=======
-* Custom Painter classes for ui elements
->>>>>>> c3cf7f7198e61e344ada465652224a3ce817bd89
