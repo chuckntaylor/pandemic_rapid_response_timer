@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2020-06-09T11:23:08.464824",
+  "@@last_modified": "2020-09-22T11:12:33.834429",
   "title": "Pandemic Rapid Response Timer",
   "@title": {
     "description": "The title of the application",
@@ -186,7 +186,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "aboutChuck": "Pandemic Rapid Response Timer App developed by Chuck Taylor.\nFor more information, visit {{chucktaylor.dev}}.\n© Chuck Taylor 2020\n\nDisclaimer: This application is an 'unofficial' companion app for the Pandemic Rapid Response™ boardgame from Z-MAN games. This app is not affiliated or sponsored in any way by Z-MAN Games.",
+  "aboutChuck": "Rapid Response Timer App developed by Chuck Taylor.\nFor more information, visit {{chucktaylor.dev}}.\n© Chuck Taylor 2020\n\nDisclaimer: This application is an 'unofficial' companion app for the Pandemic Rapid Response™ boardgame from Z-MAN games. This app is not affiliated or sponsored in any way by Z-MAN Games.",
   "@aboutChuck": {
     "description": "The about screen describing Chuck as the developer. Wrap the text that should be the link with double curly braces. {{}}",
     "type": "text",

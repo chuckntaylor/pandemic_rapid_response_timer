@@ -26,6 +26,9 @@ class DifficultySelectionScreen extends StatefulWidget {
 class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   final GameState gameState = serviceLocator<GameState>();
 
+  Image backgroundPortrait;
+  Image backgroundLandscape;
+
   // ignore: unused_field
   bool _savedGameExists = false;
 
@@ -35,6 +38,20 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   final Color _heroicColor = Colors.red.darker(20);
 
   static const double _buttonSpacing = 10.0;
+
+  @override
+  void initState() {
+    backgroundPortrait = Image.asset("assets/images/speakerGrillPortrait.png");
+    backgroundLandscape = Image.asset("assets/images/speakerGrillLandscape.png");
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    precacheImage(backgroundPortrait.image, context);
+    precacheImage(backgroundLandscape.image, context);
+  }
 
   @override
   Widget build(BuildContext context) {
