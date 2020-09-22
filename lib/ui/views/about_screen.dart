@@ -14,6 +14,8 @@ import 'package:pandemic_timer/ui/widgets/circle_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
+  final String version = "1.0.0";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +51,7 @@ class AboutScreen extends StatelessWidget {
                     _navigateToMainScreen(context);
                   },
                 ),
-                Center(child: _buildAboutText(context))
+                Center(child: _buildAboutText(context)),
               ],
             ),
           ),
@@ -91,6 +93,7 @@ class AboutScreen extends StatelessWidget {
           _textSpans.add(TextSpan(text: item));
         }
       }
+      _textSpans.add(TextSpan(text: "\n\nv $version"));
 
       return _textSpans;
     }
