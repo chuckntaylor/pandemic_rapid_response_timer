@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:pandemic_timer/business_logic/models/difficulty.dart';
 
 class GameState extends ChangeNotifier {
-
   // game saving properties
   bool savedGame = false;
   int currentTime = 120;
@@ -76,7 +75,6 @@ class GameState extends ChangeNotifier {
       case Difficulty.RESUME:
         break;
     }
-
   }
 
   void resolveCity() {

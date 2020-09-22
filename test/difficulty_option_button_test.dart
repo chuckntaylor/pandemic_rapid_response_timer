@@ -15,11 +15,7 @@ import 'custom_finders/custom_finder.dart';
 
 Widget makeTestableWidget({Widget child}) {
   return MaterialApp(
-    localizationsDelegates: [
-      AppLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate
-    ],
+    localizationsDelegates: [AppLocalizationsDelegate(), GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
     supportedLocales: [
       Locale('en', 'EN'), // English
       Locale('fr', 'FR'), // French
@@ -31,36 +27,30 @@ Widget makeTestableWidget({Widget child}) {
 }
 
 void main() {
-
 //  TestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('Difficulty Option Button renders supplied values (title, placed cards, cards in deck)', (WidgetTester tester) async {
-
     final String title = 'Title';
     final String iconName = 'easyPlane';
     final String semanticIconTitle = 'Accessibilty Label';
     final int cardsInDeck = 3;
     final int cardsInPlay = 2;
     final Color color = Colors.red;
-    BuildContext buildContext;
 
-    await tester.pumpWidget(
-        Builder(
-          builder: (BuildContext context) {
-            buildContext = context;
-            return makeTestableWidget(
-                child: DifficultyOptionButton(
-                  onPressed: () {},
-                  title: title,
-                  iconName: iconName,
-                  numCitiesPlaced: cardsInPlay,
-                  numCitiesInDeck: cardsInDeck,
-                  accessibilityLabel: semanticIconTitle,
-                  color: color,
-                )
-            );
-          },
+    await tester.pumpWidget(Builder(
+      builder: (BuildContext context) {
+        return makeTestableWidget(
+            child: DifficultyOptionButton(
+          onPressed: () {},
+          title: title,
+          iconName: iconName,
+          numCitiesPlaced: cardsInPlay,
+          numCitiesInDeck: cardsInDeck,
+          accessibilityLabel: semanticIconTitle,
+          color: color,
         ));
+      },
+    ));
 
     await tester.pump();
 

@@ -9,7 +9,6 @@ import 'package:flare_flutter/flare.dart';
 import 'package:flare_flutter/flare_controller.dart';
 
 class TokenAnimationController extends FlareController {
-
   bool idle;
   int _currentTokenCount;
 
@@ -21,6 +20,7 @@ class TokenAnimationController extends FlareController {
 
   double time = 0.0;
 
+  // ignore_for_file: non_constant_identifier_names
   ActorAnimation _idle_0;
   ActorAnimation _idle_1;
   ActorAnimation _idle_2;
@@ -84,7 +84,7 @@ class TokenAnimationController extends FlareController {
       // advance time
       time = time + elapsed;
       // check if animation is complete
-      if (_currentAnimation.duration > time ) {
+      if (_currentAnimation.duration > time) {
         _currentAnimation.apply(time, artboard, 1.0);
       } else {
         // switch to idle
@@ -131,11 +131,10 @@ class TokenAnimationController extends FlareController {
   }
 
   @override
-  void setViewTransform(Mat2D viewTransform) {
-  }
+  void setViewTransform(Mat2D viewTransform) {}
 
   ActorAnimation _getAnimation(String name) {
-    switch(name) {
+    switch (name) {
       case '_idle_0':
         return _idle_0;
       case '_idle_1':
@@ -196,7 +195,6 @@ class TokenAnimationController extends FlareController {
         return _idle_3;
     }
   }
-
 }
 
 abstract class TokenAnimation {
