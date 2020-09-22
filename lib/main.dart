@@ -41,7 +41,33 @@ void main() {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Image bgPortrait;
+  Image bgLandscape;
+  bool imageLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    bgPortrait = Image.asset("assets/images/speakerGrillPortrait.jpg");
+    bgLandscape = Image.asset("assets/images/speakerGrillLandscape.jpg");
+  }
+
+  @override
+  void didChangeDependencies() async {
+    super.didChangeDependencies();
+    await precacheImage(bgPortrait.image, context);
+    await precacheImage(bgLandscape.image, context);
+    setState(() {
+      imageLoaded = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +82,17 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: DifficultySelectionScreen(),
+      home: imageLoaded ? DifficultySelectionScreen() : blackScreen(),
     );
+  }
+
+  Widget blackScreen() {
+    return Scaffold(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Container(
+        color: Colors.black,
+      ),
+    ));
   }
 }

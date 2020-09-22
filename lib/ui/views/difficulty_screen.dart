@@ -26,10 +26,6 @@ class DifficultySelectionScreen extends StatefulWidget {
 class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   final GameState gameState = serviceLocator<GameState>();
 
-  Image bgPortrait;
-  Image bgLandscape;
-  bool imageLoaded = false;
-
   // ignore: unused_field
   bool _savedGameExists = false;
 
@@ -41,25 +37,7 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   static const double _buttonSpacing = 10.0;
 
   @override
-  void initState() {
-    super.initState();
-    bgPortrait = Image.asset("assets/images/speakerGrillPortrait.jpg");
-    bgLandscape = Image.asset("assets/images/speakerGrillLandscape.jpg");
-  }
-
-  @override
-  void didChangeDependencies() async {
-    super.didChangeDependencies();
-    await precacheImage(bgPortrait.image, context);
-    await precacheImage(bgLandscape.image, context);
-    setState(() {
-      imageLoaded = true;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    print("BG Image loaded? $imageLoaded");
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
