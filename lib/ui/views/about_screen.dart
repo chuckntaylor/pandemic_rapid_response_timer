@@ -14,48 +14,48 @@ import 'package:pandemic_timer/ui/widgets/circle_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: SystemUiOverlayStyle.light,
-        child: Container(
+        body: AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Container(
         decoration: BoxDecoration(
-        image: DecorationImage(
-        image: MediaQuery.of(context).orientation == Orientation.portrait
-        ? AssetImage('assets/images/speakerGrillPortrait.png')
-        : AssetImage('assets/images/speakerGrillLandscape.png'),
-        fit: BoxFit.cover)),
-          child: SafeArea(
-            child: Container(
-              margin: EdgeInsets.all(16),
-              child: Stack(
-                children: [
-                      CircleButton(
-                        borderWidth: 6.0,
-                        size: 48,
-                        color: Colors.redAccent,
-                        child: RotatedBox(
-                          quarterTurns: 2,
-                          child: Icon(Icons.exit_to_app,
-                            size: 32,
-                            color: Colors.white,
-                            semanticLabel: Strings.of(context).exitIconSemantic,
-                          ),
-                        ),
-                        onPress: () {
-                          // pause timer if running and flag if resume is needed.
-                          _navigateToMainScreen(context);
-                        },
-                      ),
-                  Center(child: _buildAboutText(context))
-                ],),
-            ),
+            image: DecorationImage(
+                image: MediaQuery.of(context).orientation == Orientation.portrait
+                    ? AssetImage('assets/images/speakerGrillPortrait.jpg')
+                    : AssetImage('assets/images/speakerGrillLandscape.jpg'),
+                fit: BoxFit.cover)),
+        child: SafeArea(
+          child: Container(
+            margin: EdgeInsets.all(16),
+            child: Stack(
+              children: [
+                CircleButton(
+                  borderWidth: 6.0,
+                  size: 48,
+                  color: Colors.redAccent,
+                  child: RotatedBox(
+                    quarterTurns: 2,
+                    child: Icon(
+                      Icons.exit_to_app,
+                      size: 32,
+                      color: Colors.white,
+                      semanticLabel: Strings.of(context).exitIconSemantic,
+                    ),
+                  ),
+                  onPress: () {
+                    // pause timer if running and flag if resume is needed.
+                    _navigateToMainScreen(context);
+                  },
                 ),
+                Center(child: _buildAboutText(context))
+              ],
             ),
-          )
-        );
+          ),
+        ),
+      ),
+    ));
   }
 
   Widget _buildAboutText(BuildContext context) {
@@ -78,19 +78,17 @@ class AboutScreen extends StatelessWidget {
           // remove the curly braces at the beginning and end
           String _linkText = item.replaceAll(RegExp(r'({{|}})'), '');
           _textSpans.add(
-              TextSpan(text: _linkText,
-                      style: CustomTextStyle.htmlLink(),
-                      recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            launch(AppConfig.CHUCK_WEBSITE);
-                          }
-                      ),
-              );
+            TextSpan(
+                text: _linkText,
+                style: CustomTextStyle.htmlLink(),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    launch(AppConfig.CHUCK_WEBSITE);
+                  }),
+          );
         } else {
           // regular text
-          _textSpans.add(
-            TextSpan(text: item)
-          );
+          _textSpans.add(TextSpan(text: item));
         }
       }
 
@@ -98,10 +96,7 @@ class AboutScreen extends StatelessWidget {
     }
 
     return RichText(
-      text: TextSpan(
-        style: TextStyle(fontSize: 16),
-        children: _assembleTextSpans()
-      ),
+      text: TextSpan(style: TextStyle(fontSize: 16), children: _assembleTextSpans()),
       textAlign: TextAlign.center,
     );
   }

@@ -26,8 +26,9 @@ class DifficultySelectionScreen extends StatefulWidget {
 class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
   final GameState gameState = serviceLocator<GameState>();
 
-  Image backgroundPortrait;
-  Image backgroundLandscape;
+  Image bgPortrait;
+  Image bgLandscape;
+  bool imageLoaded = false;
 
   // ignore: unused_field
   bool _savedGameExists = false;
@@ -41,29 +42,34 @@ class _DifficultySelectionScreenState extends State<DifficultySelectionScreen> {
 
   @override
   void initState() {
-    backgroundPortrait = Image.asset("assets/images/speakerGrillPortrait.png");
-    backgroundLandscape = Image.asset("assets/images/speakerGrillLandscape.png");
     super.initState();
+    bgPortrait = Image.asset("assets/images/speakerGrillPortrait.jpg");
+    bgLandscape = Image.asset("assets/images/speakerGrillLandscape.jpg");
   }
 
   @override
-  void didChangeDependencies() {
+  void didChangeDependencies() async {
     super.didChangeDependencies();
-    precacheImage(backgroundPortrait.image, context);
-    precacheImage(backgroundLandscape.image, context);
+    await precacheImage(bgPortrait.image, context);
+    await precacheImage(bgLandscape.image, context);
+    setState(() {
+      imageLoaded = true;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    print("BG Image loaded? $imageLoaded");
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: Container(
           decoration: BoxDecoration(
+              color: Colors.black,
               image: DecorationImage(
                   image: MediaQuery.of(context).orientation == Orientation.portrait
-                      ? AssetImage('assets/images/speakerGrillPortrait.png')
-                      : AssetImage('assets/images/speakerGrillLandscape.png'),
+                      ? AssetImage("assets/images/speakerGrillPortrait.jpg")
+                      : AssetImage("assets/images/speakerGrillLandscape.jpg"),
                   fit: BoxFit.cover)),
           child: SafeArea(child: OrientationBuilder(
             builder: (context, orientation) {

@@ -30,8 +30,7 @@ class TimerScreen extends StatefulWidget {
   _TimerScreenState createState() => _TimerScreenState();
 }
 
-class _TimerScreenState extends State<TimerScreen>
-    with WidgetsBindingObserver {
+class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver {
   /// Properties
   // Model
   final GameState gameStateModel = serviceLocator<GameState>();
@@ -71,18 +70,15 @@ class _TimerScreenState extends State<TimerScreen>
     // setup the Flare animation controllers
     _timerController = TimerAnimationController(play: false);
     _timerController.time = gameStateModel.timerAnimationCurrentTime;
-    _tokenController = TokenAnimationController(
-        tokenCount: gameStateModel.timeTokensRemaining);
+    _tokenController = TokenAnimationController(tokenCount: gameStateModel.timeTokensRemaining);
     // get starting values from the gameStateModel
     _counter = gameStateModel.currentTime;
-    _timeDisplay =
-      '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
+    _timeDisplay = '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
     // load SharedPreferences
     _loadMusicPrefs();
     // Keep the device awake on this screen
     Wakelock.enable();
   }
-
 
   @override
   void didChangeDependencies() {
@@ -91,7 +87,6 @@ class _TimerScreenState extends State<TimerScreen>
     });
     super.didChangeDependencies();
   }
-
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -142,13 +137,12 @@ class _TimerScreenState extends State<TimerScreen>
 
     // open the music, and set the audio to the preference and move playhead to correct point.
     _musicAudioPlayer.open(Audio('assets/audio/ambientSoundtrack.mp3'),
-        autoStart: false,
-        volume: _musicEnabled ? 0.5 : 0.0,
-        seek: Duration(seconds: gameStateModel.musicPlayHeadPosition));
+        autoStart: false, volume: _musicEnabled ? 0.5 : 0.0, seek: Duration(seconds: gameStateModel.musicPlayHeadPosition));
   }
 
   void _toggleTimer() {
-    if (_timer != null && _timer.isActive) { // if timer is already active
+    if (_timer != null && _timer.isActive) {
+      // if timer is already active
       // pause timer, animation, and music
       _timer.cancel();
       _timerController.play = false;
@@ -157,7 +151,8 @@ class _TimerScreenState extends State<TimerScreen>
       setState(() {
         _startBtnText = Strings.of(context).start;
       });
-    } else { // if timer is not running
+    } else {
+      // if timer is not running
       // play the animation, and music
       _timerController.play = true;
       _musicAudioPlayer.play();
@@ -167,46 +162,44 @@ class _TimerScreenState extends State<TimerScreen>
       });
       // run the timer every 0.1 seconds
       _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
-          if (_counter > 0) { // if timer has not finished
-            // continue countdown
-            setState(() {
-              _counter--;
-              _timeDisplay =
-              '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10)
-                  .toString()
-                  .padLeft(2, '0')}';
-            });
-          } else {
-            // countdown complete
-            // stop the timer, reset the animation, reset the music to the beginning and pause it
-            _timer.cancel();
-            _timerController.reset();
-            _musicAudioPlayer.seek(Duration(seconds: 0));
-            _musicAudioPlayer.pause();
-            // check if there is still any time tokens remaining
-            if (gameStateModel.timeTokensRemaining > 0) {
-              // play alarm sound
-              _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'));
-              // show timerReset Dialog if there are still cards in the city deck
-              if (gameStateModel.cardsInDeck > 0) {
-                DialogManager.timerReset(context, callBack: () {
-                  _removeToken();
-                });
-              } else {
-                // if no cards are in the deck, just continue with resetting the timer.
+        if (_counter > 0) {
+          // if timer has not finished
+          // continue countdown
+          setState(() {
+            _counter--;
+            _timeDisplay = '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
+          });
+        } else {
+          // countdown complete
+          // stop the timer, reset the animation, reset the music to the beginning and pause it
+          _timer.cancel();
+          _timerController.reset();
+          _musicAudioPlayer.seek(Duration(seconds: 0));
+          _musicAudioPlayer.pause();
+          // check if there is still any time tokens remaining
+          if (gameStateModel.timeTokensRemaining > 0) {
+            // play alarm sound
+            _assetsSFXAudioPlayer.open(Audio('assets/audio/chime.mp3'));
+            // show timerReset Dialog if there are still cards in the city deck
+            if (gameStateModel.cardsInDeck > 0) {
+              DialogManager.timerReset(context, callBack: () {
                 _removeToken();
-              }
-            } else {
-              // GAME OVER!
-              // play a game end sound
-              _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
-              // show gameOver Dialog
-              DialogManager.gameOver(context, callBack: () {
-                _exit();
               });
+            } else {
+              // if no cards are in the deck, just continue with resetting the timer.
+              _removeToken();
             }
+          } else {
+            // GAME OVER!
+            // play a game end sound
+            _assetsSFXAudioPlayer.open(Audio('assets/audio/drama.mp3'));
+            // show gameOver Dialog
+            DialogManager.gameOver(context, callBack: () {
+              _exit();
+            });
           }
-        });
+        }
+      });
     }
   }
 
@@ -261,8 +254,7 @@ class _TimerScreenState extends State<TimerScreen>
     }
     gameStateModel.currentTime = _counter;
     gameStateModel.timerAnimationCurrentTime = _timerController.time;
-    gameStateModel.musicPlayHeadPosition =
-        _musicAudioPlayer.currentPosition.value.inSeconds;
+    gameStateModel.musicPlayHeadPosition = _musicAudioPlayer.currentPosition.value.inSeconds;
     Navigator.of(context).pop();
   }
 
@@ -322,17 +314,15 @@ class _TimerScreenState extends State<TimerScreen>
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: MediaQuery.of(context).orientation == Orientation.portrait
-                          ? AssetImage('assets/images/speakerGrillPortrait.png')
-                          : AssetImage('assets/images/speakerGrillLandscape.png'),
+                            ? AssetImage('assets/images/speakerGrillPortrait.jpg')
+                            : AssetImage('assets/images/speakerGrillLandscape.jpg'),
                         fit: BoxFit.cover)),
                 child: SafeArea(
                   child: Consumer<GameState>(
                     builder: (context, gameState, child) {
                       return OrientationBuilder(
                         builder: (context, orientation) {
-                          return orientation == Orientation.portrait
-                              ? _portraitLayout(gameState)
-                              : _landscapeLayout(gameState);
+                          return orientation == Orientation.portrait ? _portraitLayout(gameState) : _landscapeLayout(gameState);
                         },
                       );
                     },
@@ -360,17 +350,16 @@ class _TimerScreenState extends State<TimerScreen>
                 children: [
                   /** Music Toggle */
                   CircleButton(
-                    borderWidth: 6.0,
-                    size: 48,
-                    color: Colors.blue.lighter(30),
-                    onPress: () => _toggleMusic(),
-                    child: Icon(_musicEnabled
-                      ? Icons.volume_up
-                      : Icons.volume_off,
-                     color: Colors.white,
-                    semanticLabel: Strings.of(context).musicToggleIconSemantic,
-                    size: 32,)
-                  ),
+                      borderWidth: 6.0,
+                      size: 48,
+                      color: Colors.blue.lighter(30),
+                      onPress: () => _toggleMusic(),
+                      child: Icon(
+                        _musicEnabled ? Icons.volume_up : Icons.volume_off,
+                        color: Colors.white,
+                        semanticLabel: Strings.of(context).musicToggleIconSemantic,
+                        size: 32,
+                      )),
                   /** Sand Timer */
                   Expanded(
                     child: Container(
@@ -385,27 +374,28 @@ class _TimerScreenState extends State<TimerScreen>
                     borderWidth: 6.0,
                     size: 48,
                     color: Colors.redAccent,
-                    child: Icon(Icons.exit_to_app,
+                    child: Icon(
+                      Icons.exit_to_app,
                       size: 32,
                       color: Colors.white,
                       semanticLabel: Strings.of(context).exitIconSemantic,
                     ),
-                      onPress: () {
-                        // pause timer if running and flag if resume is needed.
-                        bool _shouldResume = false;
-                        if (_timer != null && _timer.isActive) {
+                    onPress: () {
+                      // pause timer if running and flag if resume is needed.
+                      bool _shouldResume = false;
+                      if (_timer != null && _timer.isActive) {
+                        _toggleTimer();
+                        _shouldResume = true;
+                      }
+                      DialogManager.exitConfirmation(context, onConfirm: () {
+                        _saveAndExit();
+                      }, onCancel: () {
+                        if (_shouldResume) {
                           _toggleTimer();
-                          _shouldResume = true;
                         }
-                        DialogManager.exitConfirmation(context, onConfirm: () {
-                          _saveAndExit();
-                        }, onCancel: () {
-                          if (_shouldResume) {
-                            _toggleTimer();
-                          }
-                        });
-                      },
-                    ),
+                      });
+                    },
+                  ),
                 ],
               ),
             ),
@@ -437,8 +427,7 @@ class _TimerScreenState extends State<TimerScreen>
                   child: Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 5),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
                       child: Text(
                         _startBtnText.toUpperCase(),
                         textAlign: TextAlign.center,
@@ -463,8 +452,7 @@ class _TimerScreenState extends State<TimerScreen>
                   child: Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 5),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 20.0),
                       child: Text(
                         Strings.of(context).resolveCity.toUpperCase(),
                         textAlign: TextAlign.center,
@@ -630,19 +618,19 @@ class _TimerScreenState extends State<TimerScreen>
                         size: 48,
                         color: Colors.blue.lighter(30),
                         onPress: () => _toggleMusic(),
-                        child: Icon(_musicEnabled
-                            ? Icons.volume_up
-                            : Icons.volume_off,
+                        child: Icon(
+                          _musicEnabled ? Icons.volume_up : Icons.volume_off,
                           color: Colors.white,
                           semanticLabel: Strings.of(context).musicToggleIconSemantic,
-                          size: 32,)
-                    ),
+                          size: 32,
+                        )),
                     /** Exit Button */
                     CircleButton(
                       borderWidth: 6.0,
                       size: 48,
                       color: Colors.redAccent,
-                      child: Icon(Icons.exit_to_app,
+                      child: Icon(
+                        Icons.exit_to_app,
                         size: 32,
                         color: Colors.white,
                         semanticLabel: Strings.of(context).exitIconSemantic,
@@ -676,8 +664,7 @@ class _TimerScreenState extends State<TimerScreen>
                       child: Center(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 3),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
                           child: Text(
                             _startBtnText.toUpperCase(),
                             textAlign: TextAlign.center,
@@ -698,8 +685,7 @@ class _TimerScreenState extends State<TimerScreen>
                       child: Center(
                         child: Container(
                           margin: EdgeInsets.only(bottom: 5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
                           child: Text(
                             Strings.of(context).resolveCity.toUpperCase(),
                             textAlign: TextAlign.center,
