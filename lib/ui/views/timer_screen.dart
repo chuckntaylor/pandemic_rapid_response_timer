@@ -82,9 +82,15 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver {
 
   @override
   void didChangeDependencies() {
-    setState(() {
-      _startBtnText = Strings.of(context).start;
-    });
+    if (_timer != null && _timer.isActive) {
+      setState(() {
+        _startBtnText = Strings.of(context).pause;
+      });
+    } else {
+      setState(() {
+        _startBtnText = Strings.of(context).start;
+      });
+    }
     super.didChangeDependencies();
   }
 
