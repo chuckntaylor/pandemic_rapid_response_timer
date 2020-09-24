@@ -167,7 +167,7 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver {
         _startBtnText = Strings.of(context).pause;
       });
       // run the timer every 0.1 seconds
-      _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
+      _timer = Timer.periodic(Duration(milliseconds: 100), (timer) async {
         if (_counter > 0) {
           // if timer has not finished
           // continue countdown
@@ -223,6 +223,9 @@ class _TimerScreenState extends State<TimerScreen> with WidgetsBindingObserver {
         _counter = 1200;
         _timeDisplay = '${_counter ~/ (60 * 10)}:${(_counter % (60 * 10) ~/ 10).toString().padLeft(2, '0')}';
       });
+
+      // reset music file to start
+      await _musicAudioPlayer.seek(Duration(seconds: 0));
       // it takes the sand timer one second to turn over before the sand starts to fall.
       // delay the start of the countdown timer by one second.
       await new Future.delayed(const Duration(seconds: 1), () {
